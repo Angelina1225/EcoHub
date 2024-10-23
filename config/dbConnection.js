@@ -1,9 +1,15 @@
-import mongoose from "mongoose";
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
+dotenv.config();
+const connectionString = process.env.DATABASE_URL;
+
+// Connect to MongoDB Atlas
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.DATABASE_URL);
-
+        await mongoose.connect(connectionString, {
+            autoIndex: true
+        });
     } catch (error) {
         console.log('====================================');
         console.log('Error connecting to MongoDB: ', error);
