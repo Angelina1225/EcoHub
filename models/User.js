@@ -15,8 +15,8 @@ const userSchema = new Schema({
                 const regex = /\d+/;
                 return !regex.test(firstName);
             },
-            message: 'First name cannot contain numbers'
-        }
+            message: 'First name cannot contain numbers',
+        },
     },
     lastName: {
         type: String,
@@ -28,8 +28,8 @@ const userSchema = new Schema({
                 const regex = /\d+/;
                 return !regex.test(lastName);
             },
-            message: 'Last name cannot contain numbers'
-        }
+            message: 'Last name cannot contain numbers',
+        },
     },
     email: {
         type: String,
@@ -40,18 +40,20 @@ const userSchema = new Schema({
         validate: [
             {
                 validator: async (email) => {
-                    const count = await model('User').countDocuments({ email: email });
+                    const count = await model('User').countDocuments({
+                        email: email,
+                    });
                     return !count;
                 },
-                message: 'User already exists with this email'
+                message: 'User already exists with this email',
             },
             {
                 validator: (email) => {
                     return validateEmailAddress(email);
                 },
-                message: 'Email must be a valid email address'
-            }
-        ]
+                message: 'Email must be a valid email address',
+            },
+        ],
     },
     username: {
         type: String,
@@ -63,11 +65,13 @@ const userSchema = new Schema({
         minLength: [5, 'Length of username must be 5 characters or longer'],
         validate: {
             validator: async (username) => {
-                const count = await model('User').countDocuments({ username: username });
+                const count = await model('User').countDocuments({
+                    username: username,
+                });
                 return !count;
             },
-            message: 'Username is already taken'
-        }
+            message: 'Username is already taken',
+        },
     },
     password: {
         type: String,
@@ -77,25 +81,36 @@ const userSchema = new Schema({
             validator: (password) => {
                 return validatePassword(password);
             },
-            message: 'Must contain an upper case letter\n' +
+            message:
+                'Must contain an upper case letter\n' +
                 '\t  Must contain a lower case letter\n' +
                 '\t  Must contain a special chacterter\n' +
                 '\t  Must contain a number\n' +
-                '\t  Must be 8 characters or longer'
-        }
+                '\t  Must be 8 characters or longer',
+        },
     },
     role: {
         type: String,
-        default: 'user'
+        default: 'user',
     },
-    createdAt: {
-        type: Date,
-        default: () => Date.now(),
-        immutable: true
+    volunteerHours: {
+        type: Number,
+        default: 0,
+        min: [0, 'Volunteer hours need to be a positive number'],
+        validate: {
+            validator: (hours) => {
+                return Number.isInteger(hours);
+            },
+            message: 'Volunteer hours need to be an integer',
+        },
     },
-    updatedAt: {
-        type: Date
-    }
+},
+    { timestamps: true }
+);
+
+userSchema.pre('save', function (next) {
+    this.updatedAt = new Date();
+    next();
 });
 
 // Compile User model
