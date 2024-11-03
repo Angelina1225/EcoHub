@@ -1,4 +1,4 @@
-import validator from "validator";
+import validator from 'validator';
 
 /**
  * Validate the email address to check for valid email address.
