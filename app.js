@@ -1,25 +1,18 @@
 import dotenv from 'dotenv';
 import express from 'express';
-dotenv.config({path: './config/config.env'})
-
-import passport from 'passport'
-import session from 'express-session'
-import configurePassport from './config/passport.js'
-
-configurePassport(passport)
-
 import mongoose from 'mongoose';
 import connectDB from './config/dbConnection.js';
-
 import exphbs from 'express-handlebars';
-
-
 import { fileURLToPath } from 'url';
 import path from 'path';
-import * as userController from './controllers/userController.js';
+dotenv.config({path: './config/config.env'});
+import passport from 'passport';
+import session from 'express-session';
+import configurePassport from './config/passport.js';
+import configRoutesFunction from './routes/index.js';
 
 dotenv.config();
-//const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 // // Get the resolved path to the file and the name of the directory
 // const __filename = fileURLToPath(import.meta.url);
@@ -46,35 +39,27 @@ app.use(session({
     resave: false, //not saving session if nothing is modified
     saveUninitialized: false //don't create a session until something is stored
     //cookie: {secure: true}
-}))
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Connect to MongoDB
 connectDB();
+configRoutesFunction(app);
+configurePassport(passport);
 
-// app.get('/users', userController.getUsers);
+// Initial connection to the MongoDB server
+mongoose.connection.once('open', () => {
+    console.log('=========================================');
+    console.log('Connected to MongoDB');
+    console.log('=========================================');
 
-// app.get('/', (req, res) => {
-//     res.render('home');
-// });
-
-import configRoutesFunction from './routes/index.js';
-configRoutesFunction(app)
-
-// // Initial connection to the MongoDB server
-// mongoose.connection.once('open', () => {
-//     console.log('====================================');
-//     console.log('Connected to MongoDB');
-//     console.log('====================================');
-
-//     // Starts the server and listens on the specified port
-    
-// });
-
-app.listen(3000, () => {
-    console.log('====================================');
-    console.log("Server listening on port 3000");
-    console.log('Your routes will be running on http://localhost:3000');
-    console.log('====================================');
+    // Starts the server and listens on the specified port
+    app.listen(3000, () => {
+        console.log('=========================================');
+        console.log(`Server listening on port ${PORT}`);
+        console.log(`Routes running on http://localhost:${3000}`);
+        console.log('=========================================');
+    });  
 });
