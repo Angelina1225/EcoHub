@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
 import { validateEmailAddress, validatePassword } from '../validators/validation.js';
+import bcrypt from 'bcryptjs';
 
 const { Schema, model } = mongoose;
 
 // User schema definition
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: [true, 'First name is required'],
@@ -55,7 +56,7 @@ const userSchema = new Schema({
             },
         ],
     },
-    username: {
+    userName: {
         type: String,
         required: [true, 'Username is required'],
         lowercase: true,
@@ -64,9 +65,9 @@ const userSchema = new Schema({
         match: [/^[a-zA-Z0-9]+$/, 'Username can only contain letters or numbers'],
         minLength: [5, 'Length of username must be 5 characters or longer'],
         validate: {
-            validator: async (username) => {
+            validator: async (userName) => {
                 const count = await model('User').countDocuments({
-                    username: username,
+                    userName: userName,
                 });
                 return !count;
             },
@@ -89,31 +90,80 @@ const userSchema = new Schema({
                 '\t  Must be 8 characters or longer',
         },
     },
+    image: {
+        type: String,
+        default: '/public/images/default.png'
+    },
     role: {
         type: String,
         default: 'user',
     },
-    volunteerHours: {
-        type: Number,
-        default: 0,
-        min: [0, 'Volunteer hours need to be a positive number'],
-        validate: {
-            validator: (hours) => {
-                return Number.isInteger(hours);
-            },
-            message: 'Volunteer hours need to be an integer',
-        },
-    },
+    createAt: {
+        type: Date,
+        default: Date.now
+    }
+    // volunteerHours: {
+    //     type: Number,
+    //     default: 0,
+    //     min: [0, 'Volunteer hours need to be a positive number'],
+    //     validate: {
+    //         validator: (hours) => {
+    //             return Number.isInteger(hours);
+    //         },
+    //         message: 'Volunteer hours need to be an integer',
+    //     },
+    // },
 },
     { timestamps: true }
 );
+
+const googleUserSchema = new mongoose.Schema({
+    googleId: {
+        type: String,
+        required: [true, 'Google ID is required'],
+        trim: true,
+    },
+    firstName: {
+        type: String,
+        required: [true, 'First name is required'],
+        trim: true,
+    },
+    lastName: {
+        type: String,
+        required: [true, 'Last name is required'],
+        trim: true,
+    },
+    email: {
+        type: String,
+        required: [true, 'Email is required'],
+        unique: true,
+        trim: true,
+    },
+    image: {
+        type: String,
+    },
+    role: {
+        type: String,
+        default: 'user',
+    },
+    createAt: {
+        type: Date,
+        default: Date.now
+    }
+})
 
 userSchema.pre('save', function (next) {
     this.updatedAt = new Date();
     next();
 });
 
-// Compile User model
-const User = model('User', userSchema);
+googleUserSchema.pre('save', function (next) {
+    this.updatedAt = new Date();
+    next();
+});
 
-export default User;
+// Compile User model
+export const User = model('User', userSchema);
+export const GoogleUser = model('GoogleUser', googleUserSchema);
+
+export default { User, GoogleUser };

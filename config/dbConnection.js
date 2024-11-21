@@ -1,8 +1,11 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import {mongoConfig} from './settings.js';
 
 dotenv.config();
-const connectionString = process.env.DATABASE_URI;
+const connectionString = `${mongoConfig.serverUrl}${mongoConfig.database}`;
+
+console.log(`Connecting to MongoDB at: ${connectionString}`);
 
 // Connect to MongoDB Atlas
 const connectDB = async () => {
