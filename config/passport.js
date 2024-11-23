@@ -1,5 +1,4 @@
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-//import mongoose from 'mongoose';
 import {GoogleUser} from '../models/User.js';
 
 async function configurePassport(passport) {

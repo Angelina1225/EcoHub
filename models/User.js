@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs';
 
 const { Schema, model } = mongoose;
 
-// User schema definition
 const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -98,10 +97,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'user',
     },
-    createAt: {
-        type: Date,
-        default: Date.now
-    }
     // volunteerHours: {
     //     type: Number,
     //     default: 0,
@@ -114,6 +109,7 @@ const userSchema = new mongoose.Schema({
     //     },
     // },
 },
+    { strict: false },
     { timestamps: true }
 );
 
@@ -146,11 +142,10 @@ const googleUserSchema = new mongoose.Schema({
         type: String,
         default: 'user',
     },
-    createAt: {
-        type: Date,
-        default: Date.now
-    }
-})
+},
+    { strict: false },
+    { timestamps: true }
+)
 
 userSchema.pre('save', function (next) {
     this.updatedAt = new Date();
