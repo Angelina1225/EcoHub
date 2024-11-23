@@ -1,4 +1,4 @@
-import {Router} from 'express';
+import { Router } from 'express';
 const router = Router();
 import {User} from '../models/User.js';
 import crypto from 'crypto';
@@ -11,25 +11,25 @@ router
             return res.render('./users/login', {
                 layout: 'login',
                 title: 'Login'
-            }); 
+            });
         } catch (e) {
             return res.status(500).json({error: e});
         }
     })
     .post(async (req, res) => {
-        const {email, password} = req.body;
-        let user = await User.findOne({email: email})
-        try{
-            if(!user){
+        const { email, password } = req.body;
+        let user = await User.findOne({ email: email })
+        try {
+            if (!user) {
                 return res.render('./users/login', {
                     layout: 'login',
                     title: 'Login',
                     hasError: true,
                     error: "Invalid email or password"
                 });
-            } 
+            }
 
-            if(user.password !== password){
+            if (user.password !== password) {
                 return res.render('./users/login', {
                     layout: 'login',
                     title: 'Login',
@@ -50,13 +50,13 @@ router
             return res.render('./users/signup', {
                 layout: 'login',
                 title: 'Signup'
-            }); 
+            });
         } catch (e) {
             return res.status(500).json({error: e});
         }
     })
-    .post(async (req, res) =>{
-        const {firstName, lastName, userName, email, password, confirmPassword} = req.body;
+    .post(async (req, res) => {
+        const { firstName, lastName, userName, email, password, confirmPassword } = req.body;
         if (password !== confirmPassword) {
             return res.render('./users/signup', {
                 layout: 'login',
@@ -75,13 +75,13 @@ router
                     hasError: true,
                     error: "User already registered with the same email"
                 });
-            } else{
-                const newUser = {firstName, lastName, userName, email, password};
+            } else {
+                const newUser = { firstName, lastName, userName, email, password };
                 user = await User.create(newUser)
                 return res.redirect('/login');
             }
         } catch (err) {
-            if(err.name === 'ValidationError'){
+            if (err.name === 'ValidationError') {
                 const eMsg = Object.values(err.errors).map((e) => e.message).join(', ');
                 return res.render('./users/signup', {
                     layout: 'login',
@@ -109,7 +109,7 @@ router
             return res.render('./users/home', {
                 layout: 'main',
                 title: 'Home'
-            }); 
+            });
         } catch (e) {
             return res.status(500).json({error: e});
         }

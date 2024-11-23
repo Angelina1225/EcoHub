@@ -155,7 +155,9 @@ userSchema.pre('save', function (next) {
 googleUserSchema.pre('save', function (next) {
     this.updatedAt = new Date();
     next();
-});
+},
+    { timestamps: true }
+);
 
 // Compile User model
 export const User = model('User', userSchema);
