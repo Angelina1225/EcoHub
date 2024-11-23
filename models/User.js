@@ -58,7 +58,6 @@ const userSchema = new mongoose.Schema({
     userName: {
         type: String,
         required: [true, 'Username is required'],
-        lowercase: true,
         unique: true,
         trim: true,
         match: [/^[a-zA-Z0-9]+$/, 'Username can only contain letters or numbers'],

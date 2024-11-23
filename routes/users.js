@@ -231,7 +231,6 @@ router
         } catch (e) {
 
             if (e.name === 'ValidationError') {
-                console.log(e.message);
                 const errorDetails = e.message.replace('Validation failed:', '').trim();
                 const passwordError = errorDetails
                     .split(',')
@@ -246,7 +245,6 @@ router
                     token
                 });
             }
-            console.error(e);
             return res.status(500).json({ error: e.message });
         }
     });
