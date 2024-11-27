@@ -10,7 +10,7 @@ router
         try {
             return res.render('./users/login', {
                 layout: 'login',
-                title: 'Login'
+                title: 'EcoHub | Login'
             });
         } catch (e) {
             return res.status(500).json({error: e});
@@ -23,7 +23,7 @@ router
             if (!user) {
                 return res.render('./users/login', {
                     layout: 'login',
-                    title: 'Login',
+                    title: 'EcoHub | Login',
                     hasError: true,
                     error: "Invalid email or password"
                 });
@@ -32,7 +32,7 @@ router
             if (user.password !== password) {
                 return res.render('./users/login', {
                     layout: 'login',
-                    title: 'Login',
+                    title: 'EcoHub | Login',
                     hasError: true,
                     error: "Invalid email or password"
                 });
@@ -49,7 +49,7 @@ router
         try {
             return res.render('./users/signup', {
                 layout: 'login',
-                title: 'Signup'
+                title: 'EcoHub | Signup'
             });
         } catch (e) {
             return res.status(500).json({error: e});
@@ -60,7 +60,7 @@ router
         if (password !== confirmPassword) {
             return res.render('./users/signup', {
                 layout: 'login',
-                title: 'Signup',
+                title: 'EcoHub | Signup',
                 hasError: true,
                 error: "Passwords don't match"
             });
@@ -71,7 +71,7 @@ router
             if(user){
                 return res.render('./users/signup', {
                     layout: 'login',
-                    title: 'Signup',
+                    title: 'EcoHub | Signup',
                     hasError: true,
                     error: "User already registered with the same email"
                 });
@@ -85,7 +85,7 @@ router
                 const eMsg = Object.values(err.errors).map((e) => e.message).join(', ');
                 return res.render('./users/signup', {
                     layout: 'login',
-                    title: 'Signup',
+                    title: 'EcoHub | Signup',
                     hasError: true,
                     error: eMsg
                 });
@@ -94,7 +94,7 @@ router
             if (err.code === 11000) {
                 return res.render('./users/signup', { 
                     layout: 'login',
-                    title: 'Signup',
+                    title: 'EcoHub | Signup',
                     hasError: true, 
                     error: 'Username or email already exists' 
                 });
@@ -108,7 +108,7 @@ router
         try {
             return res.render('./users/home', {
                 layout: 'main',
-                title: 'Home'
+                title: 'EcoHub | Home'
             });
         } catch (e) {
             return res.status(500).json({error: e});
@@ -121,7 +121,7 @@ router
         try {
             return res.render('./users/reset', {
                 layout: 'login',
-                title: 'Forgot password'
+                title: 'EcoHub | Forgot password'
                 });
         } catch (e) {
             return res.status(500).json({error: e});
@@ -162,7 +162,7 @@ router
             await transporter.sendMail(mailOptions);
             return res.render('./users/response', {
                 layout: 'login',
-                title: 'Forgot password',
+                title: 'EcoHub | Forgot password',
                 msg: 'Password reset link sent successfully to your email'
             });
         } catch (e){
@@ -184,7 +184,7 @@ router
             }
 
             return res.render('./users/reset-password', {
-                title: 'Reset Password',
+                title: 'EcoHub | Reset Password',
                 layout: 'login', 
                 token
             })
@@ -198,7 +198,7 @@ router
             if (password !== confirmPassword) {
                 return res.render('./users/reset-password', {
                     layout: 'login',
-                    title: 'Reset Password',
+                    title: 'EcoHub | Reset Password',
                     hasError: true,
                     error: "Passwords don't match",
                     token
@@ -222,7 +222,7 @@ router
 
             return res.status(200).render('./users/response', {
                 layout: 'login',
-                title: 'Reset Password',
+                title: 'EcoHub | Reset Password',
                 hasResponse: true,
                 msg: 'Password reset successfully',
                 token
@@ -239,7 +239,7 @@ router
 
                 return res.render('./users/reset-password', {
                     layout: 'login',
-                    title: 'Reset Password',
+                    title: 'EcoHub | Reset Password',
                     hasError: true,
                     error: errorMessage,
                     token
