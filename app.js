@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
-dotenv.config({path: './config/config.env'})
+dotenv.config({ path: './config/config.env' })
 
 import passport from 'passport'
 import session from 'express-session'
@@ -38,8 +38,8 @@ import configRoutesFunction from './routes/index.js';
 configRoutesFunction(app)
 
 app.listen(3000, () => {
-    console.log('====================================');
+    console.log('=========================================');
     console.log("Server listening on port 3000");
-    console.log('Your routes will be running on http://localhost:3000');
-    console.log('====================================');
+    console.log('Routes running on http://localhost:3000');
+    console.log('=========================================');
 });
