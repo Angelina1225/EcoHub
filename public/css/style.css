@@ -1,10 +1,143 @@
-p{
-    margin: 10px 0 !important;
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.login-container{
-    width: 400px;
-    margin-top: 50px;
-    text-align: center;
+/* Navbar */
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px 20px;
+    z-index: 100;
 }
 
+.logo {
+    font-size: 40px;
+}
+
+.navbar-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-list a,
+.side-menu a {
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-list .pages:hover {
+    background-color: #565564; /*change*/
+}
+
+/* Sign Up and Log In Button */
+.navbar-list .btn,
+.side-menu .btn {
+    border: 2px solid #fff;
+    border-radius: 8px;
+}
+
+.navbar-list .sign-up,
+.side-menu .sign-up {
+    background-color: #4caf50; /*change*/
+    color: white; /*change*/
+}
+
+.navbar-list .log-in,
+.side-menu .log-in {
+    background-color: #008cba; /*change*/
+    color: white; /*change*/
+}
+
+.navbar-list .sign-up {
+    margin-right: 5px;
+}
+
+.navbar-list .sign-up:hover,
+.navbar-list .log-in:hover,
+.side-menu .sign-up:hover,
+.side-menu .log-in:hover {
+    opacity: 0.8;
+}
+
+/* Hamburger Menu Icon */
+.menu-icon {
+    font-size: 30px;
+    display: none;
+    cursor: pointer;
+}
+
+/* Side Panel Navigation */
+.side-menu {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #565564; /*change*/
+    overflow-x: hidden;
+    transition: 0.3s;
+    padding-top: 60px;
+    z-index: 101;
+}
+
+.side-menu-list {
+    list-style: none;
+    padding: 0;
+}
+
+.side-menu-list li {
+    padding: 8px 16px;
+    border-bottom: 1px solid #000;
+}
+
+.side-menu-list a {
+    display: block;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.side-menu-list a:hover {
+    background-color: #555;
+}
+
+.side-menu .close-btn {
+    color: #fff;
+    font-size: 36px;
+    position: absolute;
+    top: 15px;
+    left: 25px;
+    cursor: pointer;
+}
+
+.side-menu.open {
+    width: 250px;
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 768px) {
+
+    /* Hide Navbar on Small Screen */
+    .navbar-list {
+        display: none;
+    }
+
+    /* Show Hamburger Icon */
+    .menu-icon {
+        display: block;
+    }
+}

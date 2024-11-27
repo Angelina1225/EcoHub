@@ -1,32 +1,36 @@
-<div class="main-container">
-    <div class="login-container">
-        <h2>Login</h2>
+<div class="login-container">
+    <h2>Sign in to EcoHub</h2>
 
-        {{#if hasError}}
-            <p class="error">{{error}}</p>
-        {{/if}}
+    <a href="/auth/google" class="google-signin-btn">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjzC2JyZDZ_RaWf0qp11K0lcvB6b6kYNMoqtZAQ9hiPZ4cTIOB"
+            alt="Google Logo" class="google-img">
+        <p>Sign in with Google</p>
+    </a>
 
-        <form action="/" method="POST">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
+    <div class="signin-option">
+        <span>or sign in with email</span>
+    </div>
 
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
+    {{#if hasError}}
+    <p class="error">{{error}}</p>
+    {{/if}}
 
-            <button type="submit">Login</button>
-        </form>
-
-        <div class="extra-links">
-            <a href="/signup">Don't have an account yet? Signup</a><br>
-            <a href="/reset">Forgot your password?</a>
+    <form action="/" method="POST" class="login-form">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
         </div>
 
-        <a href="/auth/google" class="btn red darken-1">
-            <i class="fab fa-google left"></i> Log In with Google
-        </a>
-    </div>
+        <div class="form-group">
+            <div class="password-label">
+                <label for="password">Password</label>
+                <p class="forgot-password-link"><a href="/reset">Forgot password?</a></p>
+            </div>
+            <input type="password" name="password" id="password" required>
+        </div>
+
+        <button class="btn" type="submit">Sign In</button>
+    </form>
+
+    <p class="signup-link">Don't have an account? <a href="/signup">Sign Up</a></p>
 </div>

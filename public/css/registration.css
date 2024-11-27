@@ -1,0 +1,209 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Navbar */
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px 20px;
+    z-index: 100;
+}
+
+.logo {
+    color: #000;
+    font-size: 36px;
+    text-decoration: none;
+}
+
+/* Log In Options */
+.google-signin-btn {
+    display: flex;
+    width: 32%;
+    min-width: 350px;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+    border: 1px solid #000;
+    margin: 20px 0;
+    padding: 10px 15px;
+    border-radius: 25px;
+}
+
+.google-img {
+    width: 20px;
+    margin-right: 20px;
+}
+
+.google-signin-btn:hover {
+    background-color: #ededed;
+}
+
+.signin-option {
+    width: 50%;
+    max-width: 300px;
+    text-align: center;
+    font-size: small;
+    border-bottom: 1.3px solid #a6a6a6;
+    line-height: 0.1em;
+    margin: 10px;
+}
+
+.signin-option span {
+    color: #a6a6a6;
+    background: #fff;
+    padding: 0 10px;
+}
+
+/* Sign Up & Log In Form */
+.signup-container,
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+}
+
+.signup-container {
+    margin-top: 90px;
+    margin-bottom: 50px;
+}
+
+.login-container {
+    padding-top: 50px;
+}
+
+.signup-container h2,
+.login-container h2 {
+    margin-bottom: 10px;
+}
+
+.signup-form,
+.login-form {
+    width: 100%;
+    max-width: 35%;
+    min-width: 400px;
+    padding: 20px;
+    text-align: left;
+}
+
+.signup-form input,
+.login-form input,
+.reset-password-form input {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 15px;
+    border: 1px solid #000;
+    border-radius: 10px;
+}
+
+.signup-form .form-name {
+    display: flex;
+    gap: 10px;
+}
+
+.signup-form .btn,
+.login-form .btn {
+    display: block;
+    width: 70%;
+    padding: 15px;
+    color: #fff;
+    font-weight: 600;
+    background-color: #0d0c22; /*change*/
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.signup-form .btn:hover,
+.login-form .btn:hover,
+.reset-password-form .btn:hover {
+    background-color: #565564; /*change*/
+}
+
+.login-link,
+.signup-link {
+    width: 100%;
+    text-align: center;
+}
+
+.login-link a,
+.signup-link a,
+.forgot-password-link a {
+    color: #0066ff; /*change*/
+    text-decoration: none;
+}
+
+.login-link,
+.signup-link {
+    font-size: small;
+}
+
+.login-link a:hover,
+.signup-link a:hover,
+.forgot-password-link a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+}
+
+.password-label {
+    display: flex;
+    justify-content: space-between;
+}
+
+.forgot-password-link a {
+    font-size: small;
+}
+
+/* Reset Password Form */
+.reset-password {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding-top: 60px;
+}
+
+.reset-password h3 {
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+.reset-password .form-group {
+    margin-top: 20px;
+}
+
+.reset-password-form .btn {
+    width: 70%;
+    padding: 15px;
+    color: #fff;
+    font-weight: 600;
+    background-color: #0d0c22; /*change*/
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 10px;
+}
