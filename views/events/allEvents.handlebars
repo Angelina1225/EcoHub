@@ -1,0 +1,38 @@
+<br>
+<br>
+<br>
+<br>
+<div class="events-container">
+    <h1>Join us for our next events</h1>
+    <div class="add-event-button">
+    <button class="btn btn-primary" onclick="location.href='/events/addEvent'">Add Event</button>
+</div>
+
+    {{!-- <!-- Search and Filters -->
+    <div class="filters">
+        <input type="text" placeholder="Search" class="search-bar" id="search">
+        <button class="filter-button active">New</button>
+        <button class="filter-button">Today</button>
+        <button class="filter-button">Volunteer opportunities</button>
+        <button class="filter-button">Rating</button>
+    </div> --}}
+
+    <div class="events-grid">
+        {{#each events}}
+        <div class="event-card">
+            <div class="event-image">
+                <img src="{{this.image}}" alt="Event Image">
+            </div>
+            <div class="event-details">
+                <h3>{{this.title}}</h3>
+                <p>Date: {{this.formattedDate}}</p>
+                <p>Date: {{this.formattedTime}}</p>
+                <p>Location: {{this.place.formatted}}</p>
+                <button class="register-button">Register</button>
+                <br>
+                <br>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

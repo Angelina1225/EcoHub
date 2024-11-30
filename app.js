@@ -19,13 +19,12 @@ app.use('/public', express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Set app to use the handlebars engine and set handlebars configuration
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 app.use(session({
     secret: 'secret',
-    resave: false, //not saving session if nothing is modified
-    saveUninitialized: false //don't create a session until something is stored
+    resave: false, 
+    saveUninitialized: false 
     //cookie: {secure: true}
 }));
 
@@ -33,6 +32,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 connectDB();
+
+import hbs from 'hbs';
+hbs.registerHelper('formatDate', function (date) {
+    return new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+});
 
 import configRoutesFunction from './routes/index.js';
 configRoutesFunction(app)

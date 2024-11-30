@@ -5,7 +5,7 @@ import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 
 router
-    .route('/')
+    .route('/login')
     .get(async (req, res) => {
         try {
             return res.render('./users/login', {
@@ -37,7 +37,10 @@ router
                     error: "Invalid email or password"
                 });
             }
-            return res.redirect('/home');
+            await User.updateOne({ email: email }, { $set: { isLoggedIn: true } });
+            res.cookie('userId', user._id, { httpOnly: true });
+            
+            return res.redirect('/');
         } catch (e) {
             res.status(500).json({ error: e });
         }
@@ -103,12 +106,12 @@ router
     });
 
 router
-    .route('/home')
+    .route('/')
     .get(async (req, res) => {
         try {
             return res.render('./users/home', {
                 layout: 'main',
-                title: 'EcoHub | Home'
+                title: 'EcoHub | Home',
             });
         } catch (e) {
             return res.status(500).json({error: e});
@@ -249,4 +252,20 @@ router
         }
     });
     
+router
+    .route('/logout')
+    .get(async (req, res) => {
+        try {
+            const userId = req.cookies.userId; 
+            if (userId) {
+                await User.updateOne({ _id: userId }, { $set: { isLoggedIn: false } });
+                res.clearCookie('userId');
+            }
+            res.redirect('/');
+        } catch (err) {
+            console.error('Error during logout:', err);
+            res.status(500).send('An error occurred while logging out.');
+        }
+    });
+
 export default router;  

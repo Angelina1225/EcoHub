@@ -96,6 +96,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'user',
     },
+    // isLoggedIn: { 
+    //     type: Boolean, 
+    //     default: false 
+    // },
     // volunteerHours: {
     //     type: Number,
     //     default: 0,
@@ -141,6 +145,10 @@ const googleUserSchema = new mongoose.Schema({
         type: String,
         default: 'user',
     },
+    // isLoggedIn: { 
+    //     type: Boolean, 
+    //     default: false 
+    // },
 },
     { strict: false },
     { timestamps: true }
