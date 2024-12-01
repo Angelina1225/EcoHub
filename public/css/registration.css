@@ -6,10 +6,19 @@
     box-sizing: border-box;
 }
 
+:root {
+    --primary-color: #26402A;
+    --secondary-color: #F2A30F;
+    --light-text-color: #F2F2F2;
+    --light-green-color: #627364;
+    --border-color: #7B8C7E;
+}
+
 body {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-style: normal;
+    background-color: #FFFFFF;
 }
 
 /* Navbar */
@@ -18,7 +27,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fff;
+    background-color: #FFF;
     position: fixed;
     top: 0;
     left: 0;
@@ -26,10 +35,15 @@ body {
     z-index: 100;
 }
 
-.logo {
-    color: #000;
-    font-size: 36px;
-    text-decoration: none;
+.navbar-logo {
+    width: 100px;
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar-logo:hover {
+    transform: scale(1.1);
 }
 
 /* Log In Options */
@@ -54,7 +68,7 @@ body {
 }
 
 .google-signin-btn:hover {
-    background-color: #ededed;
+    background-color: var(--light-text-color);
 }
 
 .signin-option {
@@ -85,7 +99,7 @@ body {
 }
 
 .signup-container {
-    margin-top: 90px;
+    margin-top: 100px;
     margin-bottom: 50px;
 }
 
@@ -95,6 +109,7 @@ body {
 
 .signup-container h2,
 .login-container h2 {
+    color: var(--primary-color);
     margin-bottom: 10px;
 }
 
@@ -113,7 +128,7 @@ body {
     width: 100%;
     padding: 15px;
     margin: 5px 0 15px;
-    border: 1px solid #000;
+    border: 2px solid var(--border-color);
     border-radius: 10px;
 }
 
@@ -122,14 +137,20 @@ body {
     gap: 10px;
 }
 
+.login-form input:focus {
+    /* border-width: 5px; */
+    border-color: var(--primary-color);
+    outline: none;
+}
+
 .signup-form .btn,
 .login-form .btn {
     display: block;
     width: 70%;
     padding: 15px;
-    color: #fff;
+    color: var(--light-text-color);
     font-weight: 600;
-    background-color: #0d0c22; /*change*/
+    background-color: var(--primary-color);
     border: none;
     border-radius: 25px;
     cursor: pointer;
@@ -140,7 +161,7 @@ body {
 .signup-form .btn:hover,
 .login-form .btn:hover,
 .reset-password-form .btn:hover {
-    background-color: #565564; /*change*/
+    background-color: var(--light-green-color);
 }
 
 .login-link,
