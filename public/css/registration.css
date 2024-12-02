@@ -92,19 +92,9 @@ body {
 .login-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     text-align: center;
-    height: 100vh;
-}
-
-.signup-container {
-    margin-top: 100px;
-    margin-bottom: 50px;
-}
-
-.login-container {
-    padding-top: 50px;
+    padding: 120px 0 50px;
 }
 
 .signup-container h2,
@@ -138,7 +128,6 @@ body {
 }
 
 .login-form input:focus {
-    /* border-width: 5px; */
     border-color: var(--primary-color);
     outline: none;
 }
@@ -173,7 +162,8 @@ body {
 .login-link a,
 .signup-link a,
 .forgot-password-link a {
-    color: #0066ff; /*change*/
+    color: #0066ff;
+    /*change*/
     text-decoration: none;
 }
 
@@ -220,11 +210,21 @@ body {
 .reset-password-form .btn {
     width: 70%;
     padding: 15px;
-    color: #fff;
+    color: var(--light-text-color);
     font-weight: 600;
-    background-color: #0d0c22; /*change*/
+    background-color: var(--primary-color);
     border: none;
     border-radius: 25px;
     cursor: pointer;
     margin-top: 10px;
+}
+
+input.error {
+    border-color: #ff0000;
+}
+
+.error-message {
+    color: #ff0000;
+    font-size: small;
+    margin: 2px 0 15px;
 }

@@ -1,41 +1,46 @@
 <div class="signup-container">
     <h2>Sign up to EcoHub</h2>
 
-    {{#if hasError}}
-    <p class="error">{{error}}</p>
-    {{/if}}
-
-    <form action="/signup" method="POST" class="signup-form">
+    <form action="/signup" method="POST" class="signup-form" id="signup-form">
         <div class="form-name">
             <div class="form-group">
                 <label for="firstName">First Name</label>
-                <input type="text" name="firstName" id="firstName" required>
+                <input type="text" name="firstName" id="firstName" value="{{userInfo.firstName}}" required>
             </div>
 
             <div class="form-group">
                 <label for="lastName">Last Name</label>
-                <input type="text" name="lastName" id="lastName" required>
+                <input type="text" name="lastName" id="lastName" value="{{userInfo.lastName}}" required>
             </div>
         </div>
 
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" required>
+            <input type="email" name="email" id="email" value="{{userInfo.email}}" required>
+            {{#if emailExist}}
+            <p class="error-message">{{error}}</p>
+            {{/if}}
         </div>
 
         <div class="form-group">
             <label for="userName">Username</label>
-            <input type="text" name="userName" id="userName" required>
+            <input type="text" name="userName" id="userName" value="{{userInfo.userName}}" required>
+            {{#if (compare error "Username is already taken")}}
+            <p class="error-message">{{error}}</p>
+            {{/if}}
         </div>
 
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
+            <input type="password" name="password" id="password" value="{{userInfo.password}}" required>
         </div>
 
         <div class="form-group">
             <label for="confirmPassword">Confirm Password</label>
-            <input type="password" name="confirmPassword" id="confirmPassword" required>
+            <input type="password" name="confirmPassword" id="confirmPassword" value="{{userInfo.confirmPassword}}" required>
+            {{#if passwordMatchError}}
+            <p class="error">{{error}}</p>
+            {{/if}}
         </div>
 
         <button class="btn" type="submit">Create Account</button>
