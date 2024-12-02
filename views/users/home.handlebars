@@ -10,44 +10,22 @@
 
     <section class="upcoming-events">
         <h2>Upcoming Events</h2>
+        {{#if upcomingEvents}}
         <div class="home-upcoming-events">
+            {{#each upcomingEvents}}
             <div class="event">
-                <img src="/public/images/default.png" alt="Event 1">
-                <h3 class="event-title">Community Clean-up</h3>
+                <img src="/public/images/default.png" alt="{{this.title}}">
+                <h3 class="event-title">{{this.title}}</h3>
                 <a href="" class="register-btn btn">Register</a>
-                <p class="event-date">March 5, 2024</p>
-                <p class="event-description">Join us for a community-wide clean-up event! We’ll be cleaning parks,
-                    streets, and public spaces to improve our neighborhood.</p>
+                <p class="event-date">{{this.eventDateformatted}}</p>
+                <p class="event-description">{{this.description}}</p>
             </div>
-
-            <div class="event">
-                <img src="/public/images/default.png" alt="Event 1">
-                <h3 class="event-title">Community Clean-up</h3>
-                <a href="" class="register-btn btn">Register</a>
-                <p class="event-date">March 5, 2024</p>
-                <p class="event-description">Join us for a community-wide clean-up event! We’ll be cleaning parks,
-                    streets, and public spaces to improve our neighborhood.</p>
-            </div>
-
-            <div class="event">
-                <img src="/public/images/default.png" alt="Event 1">
-                <h3 class="event-title">Community Clean-up</h3>
-                <a href="" class="register-btn btn">Register</a>
-                <p class="event-date">March 5, 2024</p>
-                <p class="event-description">Join us for a community-wide clean-up event! We’ll be cleaning parks,
-                    streets, and public spaces to improve our neighborhood.</p>
-            </div>
-
-            <div class="event">
-                <img src="/public/images/default.png" alt="Event 1">
-                <h3 class="event-title">Community Clean-up</h3>
-                <a href="" class="register-btn btn">Register</a>
-                <p class="event-date">March 5, 2024</p>
-                <p class="event-description">Join us for a community-wide clean-up event! We’ll be cleaning parks,
-                    streets, and public spaces to improve our neighborhood.</p>
-            </div>
+            {{/each}}
         </div>
-        <a href="/events" class="view-more-btn btn">View More</a>
+        <a href="/events/allEvents" class="view-more-btn btn">View More</a>
+        {{else}}
+        <p class="home-no-events">No Upcoming Events</p>
+        {{/if}}
     </section>
 
     <section class="collage">

@@ -86,6 +86,10 @@ main {
     margin: 40px 0;
 }
 
+.home-no-events {
+    margin: 40px 0;
+}
+
 /* Event Card */
 .event {
     display: flex;
@@ -109,10 +113,6 @@ main {
     font-size: 1.3rem;
     color: var(--primary-color);
     margin-top: 20px;
-}
-
-.register-btn {
-    width: 50%;
 }
 
 .event-date {
