@@ -2,17 +2,15 @@ import mongoose from 'mongoose';
 import { validateEmailAddress, validatePassword } from '../validators/validation.js';
 import bcrypt from 'bcryptjs';
 
-const { Schema, model } = mongoose;
-
 const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: [true, 'First name is required'],
-        minLength: [2, 'Length of first name must be 2 characters or longer'],
+        minLength: [2, 'First name must be at least 2 characters'],
         trim: true,
         validate: {
             validator: (firstName) => {
-                const regex = /\d+/;
+                const regex = /\d/;
                 return !regex.test(firstName);
             },
             message: 'First name cannot contain numbers',
@@ -21,11 +19,11 @@ const userSchema = new mongoose.Schema({
     lastName: {
         type: String,
         required: [true, 'Last name is required'],
-        minLength: [2, 'Length of last name must be 2 characters or longer'],
+        minLength: [2, 'Last name must be at least 2 characters'],
         trim: true,
         validate: {
             validator: (lastName) => {
-                const regex = /\d+/;
+                const regex = /\d/;
                 return !regex.test(lastName);
             },
             message: 'Last name cannot contain numbers',
@@ -39,11 +37,11 @@ const userSchema = new mongoose.Schema({
         trim: true,
         validate: [
             {
-                validator: async (email) => {
-                    const count = await model('User').countDocuments({
+                validator: async function (email) {
+                    const count = await mongoose.model('User').countDocuments({
                         email: email,
                     });
-                    return !count;
+                    return count === 0;
                 },
                 message: 'User already exists with this email',
             },
@@ -61,13 +59,13 @@ const userSchema = new mongoose.Schema({
         unique: true,
         trim: true,
         match: [/^[a-zA-Z0-9]+$/, 'Username can only contain letters or numbers'],
-        minLength: [5, 'Length of username must be 5 characters or longer'],
+        minLength: [5, 'Username must be at least 5 characters'],
         validate: {
-            validator: async (userName) => {
-                const count = await model('User').countDocuments({
+            validator: async function (userName) {
+                const count = await mongoose.model('User').countDocuments({
                     userName: userName,
                 });
-                return !count;
+                return count === 0;
             },
             message: 'Username is already taken',
         },
@@ -80,12 +78,7 @@ const userSchema = new mongoose.Schema({
             validator: (password) => {
                 return validatePassword(password);
             },
-            message:
-                'Must contain an upper case letter\n' +
-                '\t  Must contain a lower case letter\n' +
-                '\t  Must contain a special chacterter\n' +
-                '\t  Must contain a number\n' +
-                '\t  Must be 8 characters or longer',
+            message: 'Password does not meet the requirement',
         },
     },
     image: {
@@ -96,19 +89,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'user',
     },
-    // volunteerHours: {
-    //     type: Number,
-    //     default: 0,
-    //     min: [0, 'Volunteer hours need to be a positive number'],
-    //     validate: {
-    //         validator: (hours) => {
-    //             return Number.isInteger(hours);
-    //         },
-    //         message: 'Volunteer hours need to be an integer',
-    //     },
-    // },
 },
-    { strict: false },
     { timestamps: true }
 );
 
@@ -142,24 +123,34 @@ const googleUserSchema = new mongoose.Schema({
         default: 'user',
     },
 },
-    { strict: false },
-    { timestamps: true }
-)
-
-userSchema.pre('save', function (next) {
-    this.updatedAt = new Date();
-    next();
-});
-
-googleUserSchema.pre('save', function (next) {
-    this.updatedAt = new Date();
-    next();
-},
     { timestamps: true }
 );
 
+// Hash password before saving
+userSchema.pre('save', async function (next) {
+    if (this.isModified('password')) {
+        try {
+            this.password = await bcrypt.hash(this.password, 10);
+        } catch (error) {
+            console.error('Error hashing password:', error);
+        }
+    }
+
+    next();
+});
+
+// Compare passwords
+userSchema.methods.comparePassword = async function (password) {
+    try {
+        const passwordMatch = await bcrypt.compare(password, this.password);
+        return passwordMatch;
+    } catch (error) {
+        console.error('Error comparing password:', error);
+    }
+};
+
 // Compile User model
-export const User = model('User', userSchema);
-export const GoogleUser = model('GoogleUser', googleUserSchema);
+export const User = mongoose.model('User', userSchema);
+export const GoogleUser = mongoose.model('GoogleUser', googleUserSchema);
 
 export default { User, GoogleUser };
