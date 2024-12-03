@@ -1,38 +1,45 @@
-<br>
-<br>
-<br>
-<br>
-<div class="events-container">
-    <h1>Join us for our next events</h1>
-    <div class="add-event-button">
-    <button class="btn btn-primary" onclick="location.href='/events/addEvent'">Add Event</button>
-</div>
+<main class="events">
+    <div class="events-heading">
+        <h1>Join us for our next events</h1>
 
-    {{!-- <!-- Search and Filters -->
-    <div class="filters">
-        <input type="text" placeholder="Search" class="search-bar" id="search">
-        <button class="filter-button active">New</button>
-        <button class="filter-button">Today</button>
-        <button class="filter-button">Volunteer opportunities</button>
-        <button class="filter-button">Rating</button>
-    </div> --}}
+        <div class="search-heading">
+            <form action="/events" method="GET" class="search-event-form">
+                <input type="text" name="query" value="{{searchTerm}}"
+                    placeholder="Search Event Name (e.g., Tree Planting)">
+                <button type="submit">Search</button>
+            </form>
 
-    <div class="events-grid">
-        {{#each events}}
-        <div class="event-card">
-            <div class="event-image">
-                <img src="{{this.image}}" alt="Event Image">
-            </div>
-            <div class="event-details">
-                <h3>{{this.title}}</h3>
-                <p>Date: {{this.formattedDate}}</p>
-                <p>Date: {{this.formattedTime}}</p>
-                <p>Location: {{this.place.formatted}}</p>
-                <button class="register-button">Register</button>
-                <br>
-                <br>
-            </div>
+            {{#if user}}
+            <a href="/events/addEvent" class="btn add-event-btn">Add Event</a>
+            {{/if}}
         </div>
-        {{/each}}
     </div>
-</div>
+
+    <section class="events-container">
+        {{#if events}}
+        <div class="all-events">
+            {{#each events}}
+            <div class="event">
+                <img src="/public/images/default.png" alt="{{this.title}}">
+                <h3 class="event-title">{{this.title}}</h3>
+                <a href="" class="register-btn btn">Register</a>
+                <div class="event-date-container">
+                    <p>Date</p>
+                    <p class="event-date">{{this.eventFormattedDate}}</p>
+                </div>
+                <div class="event-time-container">
+                    <p>Time</p>
+                    <p class="event-time">{{this.eventFormattedTime}}</p>
+                </div>
+                <div class="event-description-container">
+                    <p>Description</p>
+                    <p class="event-description">{{this.description}}</p>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        {{else}}
+        <p class="home-no-events">No Events To Show</p>
+        {{/if}}
+    </section>
+</main>

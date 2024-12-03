@@ -1,9 +1,7 @@
 import mongoose from 'mongoose';
 
-const { Schema, model } = mongoose;
-
 // Address schema definition
-const addressSchema = new Schema({
+const addressSchema = new mongoose.Schema({
     address: {
         type: String,
         required: [true, 'Address is required'],
@@ -31,12 +29,6 @@ const addressSchema = new Schema({
         minLength: [5, 'Zip code should be 5 digits long'],
         maxLength: [5, 'Zip code should be 5 digits long'],
     },
-    // country: {
-    //     type: String,
-    //     required: [true, 'Country is required'],
-    //     trim: true,
-    //     minLength: [2, 'Length of country must be 2 characters or longer'],
-    // },
     formatted: {
         type: String,
     },
@@ -45,7 +37,7 @@ const addressSchema = new Schema({
 );
 
 // Event schema definition
-const eventSchema = new Schema(
+const eventSchema = new mongoose.Schema(
     {
         title: {
             type: String,
@@ -85,6 +77,4 @@ addressSchema.pre('save', function (next) {
     next();
 });
 
-export const Event = model('Event', eventSchema);
-
-export default Event;
+export default Event = mongoose.model('Event', eventSchema);;
