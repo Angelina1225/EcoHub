@@ -1,1 +1,66 @@
-<h2>Welcome!!</h2>
+<main class="home">
+    <div class="website-heading">
+        <img src="/public/images/website/banner.png" alt="Website banner">
+        <h1>Empowering Communities for a Greener Tomorrow</h1>
+        <p>Unite, Act, and Thrive – Together for a Sustainable Future</p>
+        {{#unless user}}
+        <a href="/signup" class="join-btn btn">Join Us Now</a>
+        {{/unless}}
+    </div>
+
+    <section class="upcoming-events">
+        <h2>Upcoming Events</h2>
+        {{#if upcomingEvents}}
+        <div class="home-upcoming-events">
+            {{#each upcomingEvents}}
+            <div class="event">
+                <img src="/public/images/default.png" alt="{{this.title}}">
+                <h3 class="event-title">{{this.title}}</h3>
+                <a href="" class="register-btn btn">Register</a>
+                <p class="event-date">{{this.eventFormattedDate}}</p>
+                <p class="event-description">{{this.description}}</p>
+            </div>
+            {{/each}}
+        </div>
+        <a href="/events" class="view-more-btn btn">View More</a>
+        {{else}}
+        <p class="home-no-events">No Upcoming Events</p>
+        {{/if}}
+    </section>
+
+    <section class="collage">
+        <h2>Highlights from Our Events</h2>
+        <div class="image-container">
+            <img src="/public/images/previous-events/cleanup-one.jpg" alt="Beach cleanup drive">
+            <img src="/public/images/previous-events/tree-planting-one.jpg" alt="Tree planting drive">
+            <img src="/public/images/previous-events/cleanup-two.jpg" alt="Beach cleanup drive">
+            <img src="/public/images/previous-events/tree-planting-two.jpg" alt="Tree planting drive">
+            <img src="/public/images/previous-events/cleanup-three.jpg" alt="Beach cleanup drive">
+            <img src="/public/images/previous-events/tree-planting-three.jpg" alt="Tree planting drive">
+            <img src="/public/images/previous-events/cleanup-four.jpg" alt="Beach cleanup drive">
+            <img src="/public/images/previous-events/tree-planting-four.jpg" alt="Tree planting drive">
+            <img src="/public/images/previous-events/cleanup-one.jpg" alt="Beach cleanup drive">
+            <img src="/public/images/previous-events/tree-planting-one.jpg" alt="Tree planting drive">
+            <img src="/public/images/previous-events/cleanup-two.jpg" alt="Beach cleanup drive">
+            <img src="/public/images/previous-events/tree-planting-two.jpg" alt="Tree planting drive">
+            <img src="/public/images/previous-events/cleanup-three.jpg" alt="Beach cleanup drive">
+            <img src="/public/images/previous-events/tree-planting-three.jpg" alt="Tree planting drive">
+            <img src="/public/images/previous-events/cleanup-four.jpg" alt="Beach cleanup drive">
+            <img src="/public/images/previous-events/tree-planting-four.jpg" alt="Tree planting drive">
+        </div>
+    </section>
+
+    <section class="call-to-action">
+        <h3>Join Us in Making a <br> Difference</h3>
+        <div class="action-message">
+            <p>Become a part of our vibrant community dedicated to positive change. Your support can help us expand our
+                impact and reach more people in need.</p>
+            <div>
+                <a href="/donate" class="call-to-action-btn btn">Donate</a>
+                {{#unless user}}
+                <a href="/signup" class="call-to-action-btn btn">Get Involved</a>
+                {{/unless}}
+            </div>
+        </div>
+    </section>
+</main>

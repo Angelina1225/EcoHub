@@ -1,18 +1,15 @@
 import dotenv from 'dotenv';
 import express from 'express';
-dotenv.config({ path: './config/config.env' })
-
-import passport from 'passport'
-import session from 'express-session'
-import configurePassport from './config/passport.js'
-
-configurePassport(passport)
-
-import mongoose from 'mongoose';
 import connectDB from './config/dbConnection.js';
 import exphbs from 'express-handlebars';
+import passport from 'passport';
+import session from 'express-session';
+import configurePassport from './config/passport.js'
+import configRoutesFunction from './routes/index.js';
 
+configurePassport(passport);
 dotenv.config();
+dotenv.config({ path: './config/config.env' });
 const app = express();
 
 app.use('/public', express.static('public'));
@@ -20,23 +17,33 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Set app to use the handlebars engine and set handlebars configuration
-app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
+app.engine('handlebars', exphbs.engine({
+    defaultLayout: 'main',
+    helpers: {
+        compare: (a, b) => {
+            return a === b;
+        },
+    },
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+    }
+}));
 app.set('view engine', 'handlebars');
+
+// Session configuration
 app.use(session({
     secret: 'secret',
-    resave: false, //not saving session if nothing is modified
-    saveUninitialized: false //don't create a session until something is stored
-    //cookie: {secure: true}
+    resave: false,
+    saveUninitialized: false,
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 connectDB();
+configRoutesFunction(app);
 
-import configRoutesFunction from './routes/index.js';
-configRoutesFunction(app)
-
+// Start server
 app.listen(3000, () => {
     console.log('=========================================');
     console.log("Server listening on port 3000");

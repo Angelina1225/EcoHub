@@ -1,0 +1,72 @@
+<main class="add-event">
+    <div class="message">
+        <img src="/public/images/website/holding-earth.jpg" alt="">
+    </div>
+    <div class="add-event-container">
+        <h2>Create Event</h2>
+        {{#if hasError}}
+        <p class="error">{{error}}</p>
+        {{/if}}
+
+        <form method="POST" action="/events/addEvent" class="add-event-form" id="eventForm">
+            <div class="form-group">
+                <label for="title">Event Title</label>
+                <input type="text" name="title" id="title" required minlength="2">
+            </div>
+
+            <div class="form-group">
+                <label for="eventDate">Event Date</label>
+                <input type="date" name="eventDate" id="eventDate" min="" required>
+            </div>
+
+            <div class="form-group">
+                <label for="eventTime">Event Time</label>
+                <input type="time" name="eventTime" id="eventTime" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Event Description</label>
+                <textarea name="description" id="description" rows="4" required minlength="5"></textarea>
+            </div>
+
+            <div class="form-group volunteer-needed">
+                <label for="volunteersNeeded">Are Volunteers Needed?</label>
+                <input type="checkbox" name="volunteersNeeded" id="volunteersNeeded" value="true"
+                    onchange="toggleVolunteerInput()">
+            </div>
+
+            <div class="volunteer-field" id="volunteerField">
+                <label for="requiredVolunteer">Number of Volunteers Needed</label>
+                <input type="number" name="requiredVolunteer" id="requiredVolunteer" min="0" max="1000">
+                <br>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" name="place[address]" id="address" required minlength="5"
+                    placeholder="(e.g., 9 Castle Point Terrace)">
+            </div>
+
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" name="place[city]" id="city" required minlength="2" placeholder="(e.g., Hoboken)">
+            </div>
+
+            <div class="state-zip-code">
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" name="place[state]" id="state" required minlength="2" maxlength="2"
+                        placeholder="(e.g., NJ)">
+                </div>
+
+                <div class="form-group">
+                    <label for="zip">Zip Code</label>
+                    <input type="text" name="place[zip]" id="zip" required minlength="5" maxlength="5"
+                        placeholder="(e.g., 07030)">
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Create Event</button>
+        </form>
+    </div>
+</main>

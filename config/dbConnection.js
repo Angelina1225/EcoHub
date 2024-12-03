@@ -11,11 +11,9 @@ const connectDB = async () => {
         await mongoose.connect(connectionString, {
             autoIndex: true
         });
-    } catch (error) {
-        console.log('=========================================');
-        console.log('Error connecting to MongoDB: ', error);
-        console.log('=========================================');
 
+    } catch (error) {
+        console.log('Error connecting to MongoDB: ', error);
         process.exit(1);
     }
 };
