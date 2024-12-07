@@ -1,0 +1,59 @@
+<br>
+<br>
+<br>
+<br>
+{{#if hasError}}
+    <p class="error">{{error}}</p>
+{{/if}}
+
+
+{{#if success}}
+    <script>
+        // Trigger an alert with the success message
+        alert("You have successfully registered for the event {{event.title}}!");
+
+        // Redirect to events page after the alert
+        setTimeout(() => {
+            window.location.href = "/events"; // Redirect to the events page
+        }, 0000); 
+    </script>
+{{else if error}}
+    <script>
+        // Trigger an alert with the success message
+        alert("{{error}}");
+
+        // Redirect to events page after the alert
+        setTimeout(() => {
+            window.location.href = "/events"; // Redirect to the events page
+        }, 0000); // Wait 3 seconds after the alert
+    </script>
+{{else}}
+    <div id="consentPopup" class="popup">
+        <div class="popup-content">
+            <h2>Register to {{event.title}} </h2>
+            <form id="eventRegisterForm" method="post" action="/events/eventRegister">
+                <p> You are registering to {{event.title}} which will be held on {{event.formattedDate}} at {{event.formattedTime}} at location {{event.place.formatted}}. 
+                Please read and click the checkbox to submit the form. </p>
+                {{#if specialConditions}}
+                    <p>{{specialConditions}}</p>
+                {{/if}}
+                <input type="hidden" name="eventTitle" value="{{event.title}}" />
+                <div>
+                    <label>
+                        <input type="checkbox" name="mandatory" value="true" id="mandatoryCheckbox" />
+                        I agree to participate in the event.
+                    </label>
+                </div>
+                {{#if availableVolunteers}}
+                    <div>
+                        <label>
+                            <input type="checkbox" name="optional" value="true" id="optionalCheckbox" />
+                            I agree to volunteer and help in organizing the event and do the assigned tasks.
+                        </label>
+                    </div>
+                {{/if}}
+                <button type="submit" id="submitBtn">Submit</button>
+            </form>
+        </div>
+    </div>
+{{/if}}

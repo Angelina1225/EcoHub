@@ -9,10 +9,7 @@ const router = Router();
 router.route('/')
     .get(async (req, res) => {
         try {
-            // Get user session
             const user = req.session.user;
-
-            // Get 4 upcoming events
             let upcomingEvents = await Event.find({ 
                     eventDate: { $gt: new Date() } 
                 }).sort({ eventDate: 1 }).limit(4).lean();
@@ -36,7 +33,8 @@ router.route('/')
         }
     });
 
-router.route('/signin')
+router
+    .route('/signin')
     .get(async (req, res) => {
         try {
             const user = req.session.user;
@@ -86,7 +84,8 @@ router.route('/signin')
         }
     });
 
-router.route('/signup')
+router
+    .route('/signup')
     .get(async (req, res) => {
         try {
             const user = req.session.user;

@@ -109,6 +109,11 @@ const googleUserSchema = new mongoose.Schema({
         required: [true, 'Last name is required'],
         trim: true,
     },
+    userName: {
+        type: String,
+        required: [true, 'Username is required'],
+        trim: true,
+    },
     email: {
         type: String,
         required: [true, 'Email is required'],

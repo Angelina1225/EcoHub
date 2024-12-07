@@ -23,6 +23,9 @@ app.engine('handlebars', exphbs.engine({
         compare: (a, b) => {
             return a === b;
         },
+        encodeURIComponent: (value) => {
+            return encodeURIComponent(value);
+        },
     },
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
