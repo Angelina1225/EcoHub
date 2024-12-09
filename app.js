@@ -23,6 +23,9 @@ app.engine('handlebars', exphbs.engine({
         compare: (a, b) => {
             return a === b;
         },
+        isEven: (index) => {
+            return index % 2 === 0 ? 'even' : 'odd';
+        }
     },
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,

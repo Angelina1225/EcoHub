@@ -1,4 +1,4 @@
-import {Blog} from '../models/Blogs.js';
+import Blog from '../models/Blogs.js';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { mongoConfig } from '../config/settings.js';
@@ -6,47 +6,53 @@ import { mongoConfig } from '../config/settings.js';
 dotenv.config();
 const dbURI = `${mongoConfig.serverUrl}${mongoConfig.database}`;
 
-async function createBlog(title, body, truncatedBody, image){
-    if(!title || !body || !truncatedBody){
+async function createBlog(title, body, truncatedBody, image, urlFormat) {
+    if (!title || !body || !truncatedBody) {
         throw `All fields are required`
     }
+
     const newBlog = new Blog({
-        title:title,
-        body:body,
-        truncatedBody:truncatedBody,
-        image: image? image : '/images/defaultBlog.png'
-    })
-    const blogExists = await Blog.findOne({title});
-    if(blogExists){
+        title: title,
+        body: body,
+        truncatedBody: truncatedBody,
+        image: image ? image : '/public/images/no-image.png',
+        urlFormat: urlFormat,
+    });
+
+    const blogExists = await Blog.findOne({ title });
+    if (blogExists) {
         throw `Blog with title ${title} already exists`
     }
+
     await newBlog.save();
 }
 
 async function seedBlogs(blogArray) {
     await mongoose.connect(dbURI);
+
     try {
-      for (const blog of blogArray) {
-        const { title, body, truncatedBody, image } = blog;
-        try {
-          await createBlog(title, body, truncatedBody, image);
-          console.log(`Blog with title "${title}" created successfully.`);
-        } catch (err) {
-          console.error(`Failed to create blog "${title}":`, err);
+        for (const blog of blogArray) {
+            const { title, body, truncatedBody, image, urlFormat } = blog;
+            try {
+                await createBlog(title, body, truncatedBody, image, urlFormat);
+                console.log(`Blog with title "${title}" created successfully.`);
+            } catch (err) {
+                console.error(`Failed to create blog "${title}":`, err);
+            }
         }
-      }
-      console.log('Successfully inserted the blog post');
-      mongoose.connection.close();
+
+        console.log('Successfully inserted the blog post');
+        mongoose.connection.close();
     } catch (err) {
-      console.error('Error seeding blogs:', err);
-      mongoose.connection.close();
+        console.error('Error seeding blogs:', err);
+        mongoose.connection.close();
     }
 }
 
 const blogs = [
     {
-      title: '10 Simple Ways to Reduce Plastic Waste',
-      body: `Plastic waste has become one of the most pressing environmental challenges of our time. Each year, over 300 million tons of plastic are produced, half of which is single-use. Alarmingly, only 9% of all plastic ever produced has been recycled. The rest ends up polluting our oceans, landfills, and ecosystems, threatening marine life and human health. While large-scale systemic changes are necessary, individual actions play a significant role in reducing our plastic footprint. This blog explores 10 practical ways to cut down on plastic waste and make a meaningful impact.
+        title: '10 Simple Ways to Reduce Plastic Waste',
+        body: `Plastic waste has become one of the most pressing environmental challenges of our time. Each year, over 300 million tons of plastic are produced, half of which is single-use. Alarmingly, only 9% of all plastic ever produced has been recycled. The rest ends up polluting our oceans, landfills, and ecosystems, threatening marine life and human health. While large-scale systemic changes are necessary, individual actions play a significant role in reducing our plastic footprint. This blog explores 10 practical ways to cut down on plastic waste and make a meaningful impact.
 
 1. Say No to Single-Use Plastics
 Single-use plastics like straws, cutlery, cups, and shopping bags are among the largest contributors to pollution. The solution? Avoid them altogether. Start by carrying reusable alternatives:
@@ -99,11 +105,13 @@ Social media platforms provide an excellent space to amplify your voice. Share t
 The Bigger Picture
 Reducing plastic waste isn’t just about individual action—it’s about creating a cultural shift. By adopting these 10 simple changes, you’re contributing to a larger movement toward sustainability. Every reusable bottle, every upcycled item, and every conversation about plastic waste adds up. Together, we can protect our planet for future generations.
 Let’s start small but think big. What changes will you make today?`,
-      truncatedBody: 'Learn practical tips to cut down on plastic use in your daily life. From reusable bags to smart shopping habits, these small changes make a big difference.',
+        truncatedBody: 'Learn practical tips to cut down on plastic use in your daily life. From reusable bags to smart shopping habits, these small changes make a big difference.',
+        image: '/public/images/blogs/reduce-plastic-waste.png',
+        urlFormat: '10-simple-ways-to-reduce-plastic-waste'
     },
     {
-      title: 'The Impact of Urban Tree Planting: Turning Grey Cities Green',
-      body: `Imagine living in a bustling city where the air feels heavy with pollution, the streets are lined with lifeless concrete, and the summer heat radiates from every surface, making it unbearable to step outside. Now picture a city transformed—streets shaded by lush tree canopies, parks bursting with greenery, the air clean and refreshing, and the temperature cool even on a hot day. This transformation isn’t just a dream; it’s a reality we can achieve through the simple yet powerful act of planting trees.
+        title: 'The Impact of Urban Tree Planting: Turning Grey Cities Green',
+        body: `Imagine living in a bustling city where the air feels heavy with pollution, the streets are lined with lifeless concrete, and the summer heat radiates from every surface, making it unbearable to step outside. Now picture a city transformed—streets shaded by lush tree canopies, parks bursting with greenery, the air clean and refreshing, and the temperature cool even on a hot day. This transformation isn’t just a dream; it’s a reality we can achieve through the simple yet powerful act of planting trees.
 Urban tree planting is much more than beautifying neighborhoods. It is a step toward healing our environment, improving physical and mental well-being, and fostering a sense of community. As urban areas expand and green spaces shrink, planting trees becomes an essential solution to mitigate the effects of climate change, enhance biodiversity, and provide a better quality of life for all. But how exactly do trees accomplish these incredible feats, and how can we, as individuals and communities, contribute to this transformative effort?
 Trees are often called the "lungs of the Earth," and for a good reason. Each tree absorbs carbon dioxide and releases oxygen, making the air around it cleaner and healthier to breathe. In cities plagued by vehicle emissions and industrial pollution, this natural purification is a lifeline. A single mature tree can absorb about 48 pounds of carbon dioxide per year and produce enough oxygen to support two human beings. Imagine an entire street lined with trees—each one working tirelessly to combat the effects of urban pollution. Cities with dense tree coverage have consistently better air quality, reducing respiratory illnesses and improving overall public health.
 Beyond cleaning the air, trees also act as natural air conditioners, helping to combat the urban heat island effect. Urban areas, with their abundance of concrete and asphalt, trap heat and often experience temperatures significantly higher than surrounding rural areas. This phenomenon not only makes summers unbearable but also increases energy consumption as people rely heavily on air conditioning. Trees provide a simple, cost-effective solution. Their shade cools streets and buildings, while the water vapor released through their leaves creates a cooling effect. Research shows that neighborhoods with ample tree cover can be up to 9°F cooler than those without. This cooling effect reduces the strain on energy grids, lowers electricity bills, and makes outdoor spaces more enjoyable.
@@ -117,11 +125,13 @@ The beauty of urban tree planting lies in its inclusivity. Anyone can get involv
 When we plant a tree, we’re not just adding greenery to a space. We’re creating shade for a tired traveler, clean air for a busy commuter, and a home for a bird seeking shelter. We’re investing in the health of our planet and the happiness of our communities. Every tree tells a story—one of resilience, hope, and a commitment to a greener, healthier future. So, the next time you see a tree, take a moment to appreciate all the silent work it does. Then ask yourself: What can I do to add more trees to the world?
 Urban tree planting is more than a solution to environmental problems—it’s a symbol of what’s possible when communities come together with a shared purpose. At EcoHub, we’re proud to be part of this movement, and we invite you to join us. Together, we can turn grey cities green and create a legacy of sustainability for generations to come.
 `,
-      truncatedBody: 'Discover how planting trees in urban spaces can improve air quality, reduce heat, and create beautiful community spaces. Hear success stories from EcoHub volunteers.',
+        truncatedBody: 'Discover how planting trees in urban spaces can improve air quality, reduce heat, and create beautiful community spaces. Hear success stories from EcoHub volunteers.',
+        image: '/public/images/blogs/urban-tree-planting.png',
+        urlFormat: 'the-impact-of-urban-tree-planting-turning-grey-cities-green'
     },
     {
-      title: 'Sustainable Living on a Budget',
-      body: `When people hear the term "sustainable living," many assume it comes with a hefty price tag. Fancy eco-friendly gadgets, organic products, and solar panels often seem out of reach for the average budget. But the truth is, living sustainably doesn’t have to break the bank. In fact, many eco-friendly habits are surprisingly cost-effective and can even save you money in the long run. Whether you’re on a tight budget or simply looking to make more conscious choices, there are countless ways to live sustainably without overspending.
+        title: 'Sustainable Living on a Budget',
+        body: `When people hear the term "sustainable living," many assume it comes with a hefty price tag. Fancy eco-friendly gadgets, organic products, and solar panels often seem out of reach for the average budget. But the truth is, living sustainably doesn’t have to break the bank. In fact, many eco-friendly habits are surprisingly cost-effective and can even save you money in the long run. Whether you’re on a tight budget or simply looking to make more conscious choices, there are countless ways to live sustainably without overspending.
 Sustainability starts with the simple concept of reducing, reusing, and recycling. Instead of buying brand-new items, consider what you already own and how you can extend its life. For instance, repairing old furniture or repurposing glass jars as storage containers not only reduces waste but also saves you the cost of purchasing new items. Thrift stores and second-hand shops are also treasure troves for affordable, high-quality clothing and home goods. Shopping second-hand isn’t just sustainable—it’s also a fun way to find unique items that add character to your wardrobe or home.
 Another budget-friendly way to live sustainably is to embrace DIY projects. Household cleaning products, for example, can be made at home using simple, inexpensive ingredients like vinegar, baking soda, and lemon juice. These natural alternatives are not only cheaper but also safer for your health and the environment. Similarly, growing your own herbs or vegetables is a rewarding way to reduce food waste and save on groceries. Even if you don’t have a garden, small indoor plants or windowsill pots can bring the joy of gardening into your home.
 Energy conservation is another area where sustainability meets savings. Switching to LED light bulbs, unplugging devices when not in use, and using energy-efficient appliances are small changes that add up to lower electricity bills. You can also reduce heating and cooling costs by weatherproofing your home, like sealing gaps in windows and doors or using thick curtains to keep rooms insulated. These actions not only make your home more energy-efficient but also contribute to reducing your carbon footprint.
@@ -136,11 +146,13 @@ Sustainable living isn’t about perfection—it’s about progress. Every small
 In the end, living sustainably on a budget isn’t just about saving money—it’s about aligning your actions with your values and creating a lifestyle that benefits both you and the planet. It’s about finding joy in simplicity, creativity, and community. By embracing sustainable habits, you’re not only reducing your environmental impact but also building a future that’s brighter, greener, and more connected. At EcoHub, we believe that everyone has the power to make a difference, and together, we can create a world where sustainability is the norm, not the exception.
 Let’s start small, think big, and make every choice count. Whether it’s repurposing an old jar or planting a tree, your actions matter. Join us at EcoHub and discover how sustainable living can be affordable, impactful, and rewarding. Let’s build a sustainable future—one step, one habit, and one community at a time.
 `,
-      truncatedBody: 'Think sustainability is expensive? Think again! Explore cost-effective ways to go green without breaking the bank, from DIY projects to second-hand shopping.',
+        truncatedBody: 'Think sustainability is expensive? Think again! Explore cost-effective ways to go green without breaking the bank, from DIY projects to second-hand shopping.',
+        image: '/public/images/blogs/sustainable-living.png',
+        urlFormat: 'sustainable-living-on-a-budget'
     },
     {
-      title: 'The Future of Renewable Energy',
-      body: `As the world faces the escalating threats of climate change, energy crises, and dwindling fossil fuel reserves, the shift toward renewable energy has become more urgent than ever. Renewable energy sources—like solar, wind, hydropower, and bioenergy—are not just alternatives; they represent the cornerstone of a sustainable future. They offer the promise of cleaner air, reduced greenhouse gas emissions, and energy security for future generations.
+        title: 'The Future of Renewable Energy',
+        body: `As the world faces the escalating threats of climate change, energy crises, and dwindling fossil fuel reserves, the shift toward renewable energy has become more urgent than ever. Renewable energy sources—like solar, wind, hydropower, and bioenergy—are not just alternatives; they represent the cornerstone of a sustainable future. They offer the promise of cleaner air, reduced greenhouse gas emissions, and energy security for future generations.
 The transition to renewable energy isn’t just an environmental necessity; it’s an economic and social opportunity. In recent years, advancements in technology, government policies, and community-driven initiatives have accelerated the adoption of renewable energy systems worldwide. From solar panels powering rural homes to offshore wind farms producing electricity for entire cities, the renewable energy revolution is well underway. But what does the future hold for this rapidly evolving field, and how can individuals and communities contribute to this transformative journey?
 The Rise of Solar Energy
 Solar power is at the forefront of the renewable energy movement, and for good reason. It’s abundant, versatile, and increasingly affordable. Advances in photovoltaic (PV) technology have significantly reduced the cost of solar panels, making them accessible to homeowners, businesses, and even remote communities. In fact, solar power is now the cheapest source of electricity in many parts of the world.
@@ -180,7 +192,9 @@ The future of renewable energy isn’t just in the hands of governments and corp
 A Vision for the Future
 Imagine a world where every home is powered by the sun, every vehicle runs on clean hydrogen, and every city is supported by a resilient and sustainable energy system. This vision isn’t as far off as it may seem. The renewable energy revolution is already transforming the way we live, work, and interact with our planet.
 At EcoHub, we believe that a sustainable future is within reach. By connecting individuals, communities, and organizations, we can accelerate the transition to renewable energy and create a world where clean, affordable power is available to all. Together, we can make the future brighter—one innovation, one project, and one choice at a time.`,
-      truncatedBody: 'Dive into the latest innovations in renewable energy, from solar panels to wind turbines, and learn how communities are harnessing them for a cleaner future.',
+        truncatedBody: 'Dive into the latest innovations in renewable energy, from solar panels to wind turbines, and learn how communities are harnessing them for a cleaner future.',
+        image: '/public/images/blogs/renewable-energy.png',
+        urlFormat: 'the-future-of-renewable-energy'
     },
     {
         title: 'Eco-Friendly Holiday Traditions: Celebrate with the Planet in Mind',
@@ -217,8 +231,10 @@ Adopting eco-friendly holiday traditions isn’t just about reducing waste or co
 At EcoHub, we believe that everyone has the power to make a difference, no matter how small the action. Through workshops, resources, and community events, we’re here to support your journey toward a more sustainable holiday season. Whether it’s learning to make DIY decorations, discovering plant-based recipes, or finding zero-waste gift ideas, EcoHub is your partner in celebrating sustainably.
 This holiday season, let’s embrace traditions that bring joy to our lives and care to our planet. Let’s celebrate in a way that reflects the true spirit of the season—gratitude, generosity, and love. Together, we can create holidays that are not only magical but also meaningful, leaving a legacy of sustainability for generations to come.`,
         truncatedBody: 'This holiday season, celebrate sustainably with ideas like reusable decorations, eco-friendly gift wrap, and plant-based recipes.',
-      },
-      {
+        image: '/public/images/blogs/eco-friendly-holiday.png',
+        urlFormat: 'eco-friendly-holiday-traditions-celebrate-with-the-planet-in-mind'
+    },
+    {
         title: 'The Power of Volunteering for Climate Action',
         body: `The world is at a critical juncture when it comes to addressing climate change. As natural disasters intensify, ecosystems decline, and greenhouse gas emissions rise, the need for meaningful action becomes more urgent by the day. While governments, corporations, and organizations play a crucial role in tackling these challenges, the power of individual and community-driven action cannot be underestimated. One of the most impactful ways to contribute is through volunteering.
 Volunteering for climate action goes beyond planting trees or cleaning up beaches—it’s about fostering a movement that unites people from all walks of life to create lasting change. It’s about stepping out of our comfort zones and using our time, skills, and passion to protect the planet we call home. Let’s explore why volunteering is such a powerful tool for combating climate change and how you can become part of this global movement.
@@ -266,8 +282,10 @@ Volunteering for climate action is one of the most powerful ways to make a diffe
 At EcoHub, we believe in the power of collective action. By connecting volunteers with meaningful opportunities, we’re helping to build a network of changemakers dedicated to creating a better future. Join us in the fight against climate change and discover how your time and talents can leave a lasting impact. Together, we can create a world where people and the planet thrive.
 `,
         truncatedBody: 'Volunteering isn’t just about giving back—it’s about creating lasting change. Hear inspiring stories from EcoHub volunteers and their impact on the environment.',
-      },
-      {
+        image: '/public/images/blogs/volunteering.png',
+        urlFormat: 'the-power-of-volunteering-for-climate-action'
+    },
+    {
         title: 'Composting 101: A Beginner’s Guide to Reducing Waste',
         body: `In a world where environmental concerns are becoming increasingly urgent, finding practical ways to reduce waste is more important than ever. Composting offers an effective, eco-friendly solution that not only minimizes waste but also enriches the soil and supports sustainable living. If you’ve ever wondered how you can turn kitchen scraps and yard waste into a nutrient-rich resource for your garden, this guide is for you. Composting might sound intimidating at first, but it’s surprisingly simple, rewarding, and accessible for everyone—from urban apartment dwellers to those with sprawling backyards.
 What is Composting, and Why is it Important?
@@ -336,8 +354,10 @@ Conclusion
 Composting is more than a way to reduce waste—it’s a simple yet profound act of environmental stewardship. By turning kitchen scraps and yard waste into nutrient-rich compost, you’re not only nourishing your garden but also contributing to a healthier planet. With the right tools, knowledge, and mindset, anyone can become a successful composter. So why not start today? Whether you’re tending a backyard pile, feeding worms in a vermicomposting bin, or participating in a community program, every bit of effort counts. Together, we can turn waste into a resource, one banana peel at a time.
 `,
         truncatedBody: 'Transform your kitchen waste into nutrient-rich compost. This beginner’s guide covers all you need to know to get started at home.',
-      },
-      {
+        image: '/public/images/blogs/composting.png',
+        urlFormat: 'composting-101-a-beginners-guide-to-reducing-waste'
+    },
+    {
         title: 'Top 5 Clean-Up Drives That Changed Communities',
         body: `Clean-up drives have emerged as powerful initiatives that do more than just beautify neighborhoods or restore natural spaces—they inspire a sense of collective responsibility, foster stronger communities, and raise awareness about environmental challenges. By bringing people together with a shared goal of removing waste, clean-up drives tackle pressing issues like plastic pollution, habitat destruction, and marine debris while creating ripple effects of positive change.
 In this blog, we’ll explore five impactful clean-up drives from around the world, highlighting their incredible transformations and lasting effects on the communities they served. These stories showcase the potential of community-driven action to turn neglected spaces into thriving ecosystems and inspire others to follow suit.
@@ -384,8 +404,10 @@ At EcoHub, we believe that every effort, no matter how small, adds up to signifi
 Let’s roll up our sleeves, grab a pair of gloves, and start making a difference—one clean-up drive at a time.
 `,
         truncatedBody: 'From beaches to local parks, explore five impactful clean-up drives organized through EcoHub and the transformations they inspired.',
-      },
-      {
+        image: '/public/images/blogs/clean-up-drives.png',
+        urlFormat: 'top-5-clean-up-drives-that-changed-communities'
+    },
+    {
         title: 'How to Host an Eco-Friendly Event',
         body: `Events are a wonderful way to bring people together—whether it’s for a birthday celebration, a corporate gathering, or a community festival. But as joyful and impactful as events can be, they often leave behind a significant environmental footprint. From disposable decorations and single-use plastics to food waste and energy consumption, traditional event planning can result in a lot of waste. Hosting an eco-friendly event is not only a great way to reduce your environmental impact but also an opportunity to inspire others to adopt more sustainable practices.
 Planning a sustainable event requires a bit of creativity and thoughtful decision-making, but the rewards are well worth it. By focusing on reducing waste, conserving resources, and supporting ethical practices, you can host an event that is both memorable and environmentally conscious. Here’s a step-by-step guide to help you plan and execute an eco-friendly event.
@@ -443,8 +465,10 @@ At EcoHub, we believe that every event, big or small, is an opportunity to make 
 Let’s make every event a step toward a greener world—one sustainable choice at a time.
 `,
         truncatedBody: 'Whether it’s a birthday party or a community gathering, learn how to plan events that minimize waste and prioritize sustainability.',
-      },
-      {
+        image: '/public/images/blogs/host-eco-friendly-event.png',
+        urlFormat: 'how-to-host-an-eco-friendly-event'
+    },
+    {
         title: 'Inspiring Youth to Act on Climate Change',
         body: `The climate crisis is one of the most pressing challenges of our time, and its impacts will be felt most acutely by future generations. While this might seem daunting, it also means that today’s youth have a unique opportunity to lead the fight for a sustainable future. Across the globe, young people are stepping up as passionate advocates, innovators, and changemakers, proving that age is no barrier to making a difference.
 Educating, empowering, and inspiring youth to act on climate change is essential for building a movement that can drive lasting change. By equipping young people with the knowledge, skills, and opportunities to address environmental issues, we’re not just solving problems for today—we’re investing in the leaders of tomorrow. This blog explores the importance of youth involvement, the challenges they face, and actionable ways to inspire and support their efforts.
@@ -512,7 +536,9 @@ At EcoHub, we believe in the potential of youth to drive change. Through educati
 Let’s support and celebrate the incredible power of youth in building a greener, healthier world. The future depends on their passion—and our willingness to stand beside them every step of the way.
 `,
         truncatedBody: 'Empower the next generation to become environmental leaders with tips and resources designed to engage children and teens in climate action.',
-      },
-  ];
+        image: '/public/images/blogs/inspiring-youth.png',
+        urlFormat: 'inspiring-youth-to-act-on-climate-change'
+    },
+];
 
 seedBlogs(blogs);
