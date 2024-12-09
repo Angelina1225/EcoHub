@@ -13,9 +13,12 @@ router.route('/')
             const user = req.session.user;
 
             // Get 4 upcoming events
-            let upcomingEvents = await Event.find({ eventDate: { $gt: new Date() } }).sort({ eventDate: 1 }).limit(4);
+            let upcomingEvents = await Event.find({ 
+                    eventDate: { $gt: new Date() } 
+                }).sort({ eventDate: 1 }).limit(4).lean();
+
             upcomingEvents.forEach(event => {
-                event.eventDateformatted = event.eventDate.toLocaleDateString('en-Us', {
+                event.eventFormattedDate = event.eventDate.toLocaleDateString('en-Us', {
                     month: 'long',
                     day: '2-digit',
                     year: 'numeric',

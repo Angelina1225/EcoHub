@@ -1,0 +1,45 @@
+<main class="events">
+    <div class="events-heading">
+        <h1>Join us for our next events</h1>
+
+        <div class="search-heading">
+            <form action="/events" method="GET" class="search-event-form">
+                <input type="text" name="query" value="{{searchTerm}}"
+                    placeholder="Search Event Name (e.g., Tree Planting)">
+                <button type="submit">Search</button>
+            </form>
+
+            {{#if user}}
+            <a href="/events/addEvent" class="btn add-event-btn">Add Event</a>
+            {{/if}}
+        </div>
+    </div>
+
+    <section class="events-container">
+        {{#if events}}
+        <div class="all-events">
+            {{#each events}}
+            <div class="event">
+                <img src="/public/images/default.png" alt="{{this.title}}">
+                <h3 class="event-title">{{this.title}}</h3>
+                <a href="" class="register-btn btn">Register</a>
+                <div class="event-date-container">
+                    <p>Date</p>
+                    <p class="event-date">{{this.eventFormattedDate}}</p>
+                </div>
+                <div class="event-time-container">
+                    <p>Time</p>
+                    <p class="event-time">{{this.eventFormattedTime}}</p>
+                </div>
+                <div class="event-description-container">
+                    <p>Description</p>
+                    <p class="event-description">{{this.description}}</p>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        {{else}}
+        <p class="home-no-events">No Events To Show</p>
+        {{/if}}
+    </section>
+</main>

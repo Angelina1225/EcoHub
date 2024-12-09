@@ -12,14 +12,8 @@ const connectDB = async () => {
             autoIndex: true
         });
 
-        console.log('=========================================');
-        console.log('Connected to MongoDB');
-        console.log('=========================================');
     } catch (error) {
-        console.log('=========================================');
         console.log('Error connecting to MongoDB: ', error);
-        console.log('=========================================');
-
         process.exit(1);
     }
 };

@@ -138,7 +138,7 @@ body {
     width: 70%;
     padding: 15px;
     color: var(--light-text-color);
-    font-weight: 600;
+    font-weight: bold;
     background-color: var(--primary-color);
     border: none;
     border-radius: 25px;
@@ -163,7 +163,6 @@ body {
 .signup-link a,
 .forgot-password-link a {
     color: #0066ff;
-    /*change*/
     text-decoration: none;
 }
 

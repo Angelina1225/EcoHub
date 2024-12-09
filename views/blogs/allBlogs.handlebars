@@ -1,0 +1,16 @@
+<main class="blog-posts">
+    <h1>Blog Posts</h1>
+
+    <div class="blog-container">
+        {{#each blogPosts}}
+        <div class="blog-card {{isEven @index}}">
+            <img src="{{image}}" alt="{{title}}" class="blog-img">
+            <div class="blog-content">
+                <h3>{{title}}</h3>
+                <p>{{truncatedBody}}</p>
+                <a href="/blogs/{{encodeURIComponent urlFormat}}" class="btn read-more-btn">Read More</a>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</main>
