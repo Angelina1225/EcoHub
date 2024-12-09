@@ -10,9 +10,9 @@ router.route('/')
     .get(async (req, res) => {
         try {
             const user = req.session.user;
-            let upcomingEvents = await Event.find({ 
-                    eventDate: { $gt: new Date() } 
-                }).sort({ eventDate: 1 }).limit(4).lean();
+            let upcomingEvents = await Event.find({
+                eventDate: { $gt: new Date() }
+            }).sort({ eventDate: 1 }).limit(4).lean();
 
             upcomingEvents.forEach(event => {
                 event.eventFormattedDate = event.eventDate.toLocaleDateString('en-Us', {
@@ -33,18 +33,13 @@ router.route('/')
         }
     });
 
-router
-    .route('/signin')
+router.route('/signin')
     .get(async (req, res) => {
         try {
             const user = req.session.user;
 
             if (user) {
-                return res.render('./users/home', {
-                    layout: 'main',
-                    title: 'EcoHub',
-                    user: user
-                });
+                return res.redirect('/');
             }
 
             return res.render('./users/login', {
@@ -91,11 +86,7 @@ router
             const user = req.session.user;
 
             if (user) {
-                return res.render('./users/home', {
-                    layout: 'main',
-                    title: 'EcoHub',
-                    user: user
-                });
+                return res.redirect('/');
             }
 
             return res.render('./users/signup', {
@@ -181,6 +172,7 @@ router.route('/logout')
             if (err) {
                 return res.status(500).json({ error: err });
             }
+
             return res.redirect('/signin');
         });
     });
@@ -191,11 +183,7 @@ router.route('/reset')
             const user = req.session.user;
 
             if (user) {
-                return res.render('./users/home', {
-                    layout: 'main',
-                    title: 'EcoHub',
-                    user: user
-                });
+                return res.redirect('/home');
             }
 
             return res.render('./users/reset', {

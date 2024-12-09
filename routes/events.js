@@ -66,10 +66,7 @@ router.route('/addEvent')
                 });
             }
 
-            return res.render('./users/login', {
-                layout: 'login',
-                title: 'Sign In | EcoHub'
-            });
+            return res.redirect('/signin');
         } catch (e) {
             return res.status(500).json({ error: e });
         }
