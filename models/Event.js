@@ -82,7 +82,7 @@ const eventSchema = new mongoose.Schema(
         },
         participants: { 
             type: [participantSchema],
-            default: undefined 
+            default: [],
         },
     },
     { timestamps: true }

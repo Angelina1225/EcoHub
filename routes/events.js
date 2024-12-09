@@ -170,23 +170,20 @@ router
 
  .post(async (req, res) => {
     const user = req.session.user;
-    //console.log('User: ', user);
     if(!user) {
         return res.redirect('/signin')
     }
     try {
         const { eventTitle, mandatory, optional } = req.body;
         if (!mandatory) {
-            //return res.status(400).json({ error: 'Mandatory consent is required.' });
             return res.status(400).render('./events/eventRegister', {
                 error: 'Partcipation consent is required.',
-                event: await Event.findOne({ title: eventTitle }) // re-fetch the event
+                event: await Event.findOne({ title: eventTitle }) 
             });
         }
         
         const event = await Event.findOne({ title: eventTitle });
         if (!event) {
-            //return res.status(404).json({ error: 'Event not found.' });
             return res.status(404).render('./events/eventRegister', {
                 error: 'Event not found.',
                 event: { title: eventTitle }, 
@@ -194,16 +191,11 @@ router
             });
         }
 
-        if (!event.participants) {
-            event.participants = []; 
-        }
-
         const isAlreadyRegistered = event.participants.some(
             (participant) => participant.userId.toString() === user._id.toString()
         );
 
         if (isAlreadyRegistered) {
-            //return res.status(400).json({ error: 'You are already registered for this event.' });
             return res.status(400).render('./events/eventRegister', {
                 error: 'You are already registered for this event.',
                 event: event,
@@ -216,7 +208,6 @@ router
             if (event.availableVolunteers > 0) {
                 isVolunteer = true;
             } else {
-                //return res.status(400).json({ error: 'No volunteer slots available.' });
                 return res.status(400).render('./events/eventRegister', {
                     error: 'No volunteer slots available.',
                     event: event,
