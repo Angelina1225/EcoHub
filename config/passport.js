@@ -12,10 +12,10 @@ async function configurePassport(passport) {
                 googleId: profile.id,
                 firstName: profile.name.givenName,
                 lastName: profile.name.familyName,
+                userName: profile.name.givenName,
                 email: profile.emails[0].value,
                 image: profile.photos[0].value
             };
-
             try {
                 let user = await GoogleUser.findOne({ googleId: profile.id });
                 if (user) {

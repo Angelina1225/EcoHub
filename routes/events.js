@@ -1,20 +1,15 @@
 import { Router } from 'express';
 import Event from '../models/Event.js';
+import { User } from '../models/User.js';
 
 const router = Router();
 
 router.route('/')
     .get(async (req, res) => {
         try {
-            // Get user session
             const user = req.session.user;
-
-            // Get the search term
             const searchTerm = req.query.query || '';
-
             let events;
-
-            // Get events matching search term or return all upcoming events
             if (searchTerm) {
                 events = await Event.find({
                     $and: [
@@ -33,10 +28,9 @@ router.route('/')
                 }).sort({ eventDate: 1 }).lean();
             }
 
-            // Format event date and time
             events.forEach((event) => {
                 event.eventFormattedDate = new Date(event.eventDate).toLocaleDateString('en-US', {
-                    month: 'long',
+                    month: 'short',
                     day: '2-digit',
                     year: 'numeric',
                 });
@@ -62,7 +56,6 @@ router.route('/')
 router.route('/addEvent')
     .get(async (req, res) => {
         try {
-            // Get user session
             const user = req.session.user;
 
             if (user) {
@@ -83,13 +76,12 @@ router.route('/addEvent')
     })
     .post(async (req, res) => {
         try {
-            const { title, description, eventDate, eventTime, place, requiredVolunteer, volunteersNeeded } = req.body;
-
+            const { title, description, specialConditions, eventDate, eventTime, place, requiredVolunteer, volunteersNeeded } = req.body;
             const fullDate = new Date(`${eventDate}T${eventTime}`);
-
             const existingEvent = await Event.findOne({
                 title,
                 description,
+                specialConditions,
                 eventDate: fullDate,
                 "place.address": place.address,
                 "place.city": place.city,
@@ -110,6 +102,7 @@ router.route('/addEvent')
             const newEvent = new Event({
                 title,
                 description,
+                specialConditions,
                 eventDate: fullDate,
                 place,
                 requiredVolunteer: volunteersNeeded === 'true' ? requiredVolunteer : 0,
@@ -117,7 +110,6 @@ router.route('/addEvent')
 
             await newEvent.save();
             return res.status(201).redirect('/events')
-
         } catch (err) {
             if (err.name === 'ValidationError') {
                 const eMsg = Object.values(err.errors).map((e) => e.message).join(', ');
@@ -128,8 +120,6 @@ router.route('/addEvent')
                     error: eMsg,
                 });
             }
-            console.log(err)
-            
             if (err.code === 11000) {
                 return res.render('./events/addEvent', {
                     layout: 'login',
@@ -147,5 +137,117 @@ router.route('/addEvent')
             });
         }
     });
+
+router
+ .route('/eventRegister')
+ .get(async (req, res) => {
+   try {
+    const user = req.session.user;
+    if(!user) {
+        return res.redirect('/signin')
+    }
+    const title = req.query.title;
+    const event = await Event.findOne({title: title});
+    if (!event) {
+        return res.status(404).json({error: 'Event not found'});
+    }
+    try{
+        return res.render('./events/eventRegister', {
+            layout: 'main',
+            title: 'EcoHub | Register to Event',
+            event: event,
+            user: user,
+            specialConditions: event.specialConditions? true : false,
+            availableVolunteers: event.availableVolunteers > 0? true : false
+        });
+    } catch (e) {
+        return res.status(500).json({error: e});
+    }
+   } catch (e) {
+    return res.status(500).json({ error: e });
+   }
+ })
+
+ .post(async (req, res) => {
+    const user = req.session.user;
+    //console.log('User: ', user);
+    if(!user) {
+        return res.redirect('/signin')
+    }
+    try {
+        const { eventTitle, mandatory, optional } = req.body;
+        if (!mandatory) {
+            //return res.status(400).json({ error: 'Mandatory consent is required.' });
+            return res.status(400).render('./events/eventRegister', {
+                error: 'Partcipation consent is required.',
+                event: await Event.findOne({ title: eventTitle }) // re-fetch the event
+            });
+        }
+        
+        const event = await Event.findOne({ title: eventTitle });
+        if (!event) {
+            //return res.status(404).json({ error: 'Event not found.' });
+            return res.status(404).render('./events/eventRegister', {
+                error: 'Event not found.',
+                event: { title: eventTitle }, 
+                user: user
+            });
+        }
+
+        if (!event.participants) {
+            event.participants = []; 
+        }
+
+        const isAlreadyRegistered = event.participants.some(
+            (participant) => participant.userId.toString() === user._id.toString()
+        );
+
+        if (isAlreadyRegistered) {
+            //return res.status(400).json({ error: 'You are already registered for this event.' });
+            return res.status(400).render('./events/eventRegister', {
+                error: 'You are already registered for this event.',
+                event: event,
+                user: user
+            });
+        }
+
+        let isVolunteer = false;
+        if (optional === 'true') {
+            if (event.availableVolunteers > 0) {
+                isVolunteer = true;
+            } else {
+                //return res.status(400).json({ error: 'No volunteer slots available.' });
+                return res.status(400).render('./events/eventRegister', {
+                    error: 'No volunteer slots available.',
+                    event: event,
+                    user: user
+                });
+            }
+        }
+
+        const participant = {
+            userId: user._id, 
+            userName: user.userName, 
+            email: user.email, 
+            isVolunteer,
+        };
+
+        event.participants.push(participant);
+        await event.save();
+
+        res.render('./events/eventRegister', {
+            success: true,
+            event: event,
+            user: user
+        });
+    } catch (e) {
+        console.error(e);
+        res.status(500).render('./events/eventRegister', {
+            error: 'An error occurred while registering for the event.',
+            event: await Event.findOne({ title: req.body.eventTitle }),
+            user: user
+        });
+    }
+});
 
 export default router;

@@ -8,11 +8,15 @@ router
 
 router
     .route('/google/callback')
-    .get(passport.authenticate('google',
-        { failureRedirect: '/login' }),
+    .get(passport.authenticate('google', { failureRedirect: '/login' }),
         (req, res) => {
-            res.redirect('/')
-        })
+            req.session.user = {
+                _id: req.user._id,
+                email: req.user.email, 
+                userName: req.user.userName
+            };
+            res.redirect('/');
+        });
 
 router
     .route('/logout')

@@ -10,23 +10,28 @@
 
         <form method="POST" action="/events/addEvent" class="add-event-form" id="eventForm">
             <div class="form-group">
-                <label for="title">Event Title</label>
+                <label for="title">Event Title*</label>
                 <input type="text" name="title" id="title" required minlength="2">
             </div>
 
             <div class="form-group">
-                <label for="eventDate">Event Date</label>
+                <label for="eventDate">Event Date*</label>
                 <input type="date" name="eventDate" id="eventDate" min="" required>
             </div>
 
             <div class="form-group">
-                <label for="eventTime">Event Time</label>
+                <label for="eventTime">Event Time*</label>
                 <input type="time" name="eventTime" id="eventTime" required>
             </div>
 
             <div class="form-group">
-                <label for="description">Event Description</label>
+                <label for="description">Event Description*</label>
                 <textarea name="description" id="description" rows="4" required minlength="5"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="specialConditions">Please list if there are any special requirements or constraints that the participants should have or should avoid</label>
+                <textarea name="specialConditions" id="description" rows="4" ></textarea>
             </div>
 
             <div class="form-group volunteer-needed">
@@ -42,25 +47,25 @@
             </div>
 
             <div class="form-group">
-                <label for="address">Address</label>
+                <label for="address">Address*</label>
                 <input type="text" name="place[address]" id="address" required minlength="5"
                     placeholder="(e.g., 9 Castle Point Terrace)">
             </div>
 
             <div class="form-group">
-                <label for="city">City</label>
+                <label for="city">City*</label>
                 <input type="text" name="place[city]" id="city" required minlength="2" placeholder="(e.g., Hoboken)">
             </div>
 
             <div class="state-zip-code">
                 <div class="form-group">
-                    <label for="state">State</label>
+                    <label for="state">State*</label>
                     <input type="text" name="place[state]" id="state" required minlength="2" maxlength="2"
                         placeholder="(e.g., NJ)">
                 </div>
 
                 <div class="form-group">
-                    <label for="zip">Zip Code</label>
+                    <label for="zip">Zip Code*</label>
                     <input type="text" name="place[zip]" id="zip" required minlength="5" maxlength="5"
                         placeholder="(e.g., 07030)">
                 </div>

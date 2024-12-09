@@ -207,14 +207,14 @@ main {
     padding: 0 0 40px;
 }
 
-.event-date-container,
-.event-time-container,
+.event-timing-container,
+.event-location-container,
 .event-description-container {
     margin: 10px 0;
 }
 
-.event-date-container p:first-child,
-.event-time-container p:first-child,
+.event-timing-container p:first-child,
+.event-location-container p:first-child,
 .event-description-container p:first-child {
     color: var(--light-green-color);
     margin-bottom: 10px;
@@ -245,8 +245,9 @@ main {
     margin-top: 20px;
 }
 
-.event-date,
-.event-time {
+/* .event-date, */
+.event-timing,
+.event-location {
     font-size: 1.1em;
     color: var(--primary-color);
     font-weight: bold;
