@@ -26,6 +26,9 @@ app.engine('handlebars', exphbs.engine({
         encodeURIComponent: (value) => {
             return encodeURIComponent(value);
         },
+        isEven: (index) => {
+            return index % 2 === 0 ? 'even' : 'odd';
+        }
     },
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
