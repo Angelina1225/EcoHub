@@ -15,8 +15,6 @@ if (signupForm) {
 
             document.querySelectorAll('.error-message').forEach((message) => {
                 message.remove();
-                console.log(message);
-
             });
 
             const firstNameValue = firstName.value.trim();

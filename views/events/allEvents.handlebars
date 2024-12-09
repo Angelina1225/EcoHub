@@ -22,14 +22,22 @@
             <div class="event">
                 <img src="/public/images/default.png" alt="{{this.title}}">
                 <h3 class="event-title">{{this.title}}</h3>
-                <a href="" class="register-btn btn">Register</a>
-                <div class="event-date-container">
+                <a href="/events/eventRegister?title={{encodeURIComponent this.title}}" class="register-btn btn">Register</a>
+                {{!-- <div class="event-date-container">
                     <p>Date</p>
                     <p class="event-date">{{this.eventFormattedDate}}</p>
                 </div>
                 <div class="event-time-container">
                     <p>Time</p>
                     <p class="event-time">{{this.eventFormattedTime}}</p>
+                </div> --}}
+                <div class="event-timing-container">
+                    <p>Timings</p>
+                    <p class="event-timing">{{this.eventFormattedDate}}, {{this.eventFormattedTime}}</p>
+                </div>
+                <div class="event-location-container">
+                    <p>Location</p>
+                    <p class="event-location">{{this.place.formatted}}</p>
                 </div>
                 <div class="event-description-container">
                     <p>Description</p>

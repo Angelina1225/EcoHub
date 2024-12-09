@@ -6,12 +6,14 @@ const router = Router();
 router.route('/')
     .get(async (req, res) => {
         try {
+            const user = req.session.user;
             const blogPosts = await Blog.find().lean();
             const encodeURIComponentHelper = (str) => encodeURIComponent(str);
 
             return res.render('./blogs/allBlogs', {
                 layout: 'main',
                 title: 'Blogs | EcoHub',
+                user: user,
                 blogPosts,
                 helpers: {
                     encodeURIComponent: encodeURIComponentHelper
@@ -25,6 +27,7 @@ router.route('/')
 router.route('/:title')
     .get(async (req, res) => {
         try {
+            const user = req.session.user;
             const blog = await Blog.findOne({
                 urlFormat: new RegExp(`^${req.params.title}$`, 'i')
             }).lean();
@@ -46,6 +49,7 @@ router.route('/:title')
             return res.render('./blogs/blogDetails', { 
                 layout: 'main',
                 title: `${blog.title} | EcoHub`,
+                user: user,
                 blog 
             });
         } catch (err) {

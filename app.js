@@ -23,6 +23,9 @@ app.engine('handlebars', exphbs.engine({
         compare: (a, b) => {
             return a === b;
         },
+        encodeURIComponent: (value) => {
+            return encodeURIComponent(value);
+        },
         isEven: (index) => {
             return index % 2 === 0 ? 'even' : 'odd';
         }

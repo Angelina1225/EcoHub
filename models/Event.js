@@ -36,6 +36,13 @@ const addressSchema = new mongoose.Schema({
     { _id: false }
 );
 
+const participantSchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, required: true }, // Reference to User
+    userName: { type: String, required: true },
+    email: { type: String, required: true },
+    isVolunteer: { type: Boolean, default: false },
+});
+
 // Event schema definition
 const eventSchema = new mongoose.Schema(
     {
@@ -50,6 +57,11 @@ const eventSchema = new mongoose.Schema(
             required: [true, 'Description is required'],
             minLength: [5, 'Length of description must be 5 characters or longer'],
             trim: true,
+        },
+        specialConditions: {
+            type: String,
+            trim: true,
+            required: false
         },
         eventDate: {
             type: Date,
@@ -68,6 +80,10 @@ const eventSchema = new mongoose.Schema(
             required: [true, 'Number of volunteers needed cannot be negative'],
             min: 0,
         },
+        participants: { 
+            type: [participantSchema],
+            default: [],
+        },
     },
     { timestamps: true }
 );
@@ -75,6 +91,11 @@ const eventSchema = new mongoose.Schema(
 addressSchema.pre('save', function (next) {
     this.formatted = `${this.address}, ${this.city}, ${this.state}, ${this.zip}`;
     next();
+});
+
+eventSchema.virtual('availableVolunteers').get(function () {
+    const volunteers = this.participants.filter((p) => p.isVolunteer).length;
+    return this.requiredVolunteer - volunteers;
 });
 
 export default Event = mongoose.model('Event', eventSchema);;
