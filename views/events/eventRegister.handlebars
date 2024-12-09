@@ -1,54 +1,64 @@
-<br>
-<br>
-<br>
-<br>
-{{#if hasError}}
-    <p class="error">{{error}}</p>
-{{/if}}
-
-
-{{#if success}}
+<main class="event-register">
+    {{#if success}}
     <script>
         alert("You have successfully registered for the event {{event.title}}!");
 
         setTimeout(() => {
-            window.location.href = "/events"; 
+            window.location.href = "/events";
         }, 0000); 
     </script>
-{{else if error}}
+    {{else if error}}
     <script>
         alert("{{error}}");
         setTimeout(() => {
-            window.location.href = "/events"; 
+            window.location.href = "/events";
         }, 0000); 
     </script>
-{{else}}
+    {{else}}
     <div id="consentPopup" class="popup">
         <div class="popup-content">
-            <h2>Register to {{event.title}} </h2>
-            <form id="eventRegisterForm" method="post" action="/events/eventRegister">
-                <p> You are registering to {{event.title}} which will be held on {{event.formattedDate}} at {{event.formattedTime}} at location {{event.place.formatted}}. 
-                Please read and click the checkbox to submit the form. </p>
-                {{#if specialConditions}}
-                    <p>{{specialConditions}}</p>
+            <div class="close-popup" id="closePopup">&times;</div>
+
+            <h2>Register for {{event.title}} </h2>
+            <form id="eventRegisterForm" method="POST" action="/events/eventRegister">
+                <p> You are registering for the event <strong>{{event.title}}</strong>, which will take place on
+                    <strong>{{event.eventFormattedDate}}</strong> at <strong>{{event.eventFormattedTime}}</strong>
+                    at location <strong>{{event.place.formatted}}</strong>.
+                </p>
+
+                <p class="terms-conditions">Please agree to the terms and conditions to proceed:</p>
+
+                {{#if specialConditions.isSpecialConditions}}
+                <div class="special-conditions">
+                    <p><strong>Special Conditions</strong></p>
+                    <p>{{specialConditions.specialConditions}}</p>
+                </div>
                 {{/if}}
+
                 <input type="hidden" name="eventTitle" value="{{event.title}}" />
-                <div>
-                    <label>
+                <div class="checkbox">
+                    <label for="mandatoryCheckbox">
                         <input type="checkbox" name="mandatory" value="true" id="mandatoryCheckbox" />
                         I agree to participate in the event.
                     </label>
                 </div>
+
                 {{#if availableVolunteers}}
-                    <div>
-                        <label>
-                            <input type="checkbox" name="optional" value="true" id="optionalCheckbox" />
-                            I agree to volunteer and help in organizing the event and do the assigned tasks.
-                        </label>
-                    </div>
+                <div class="checkbox">
+                    <label for="optionalCheckbox">
+                        <input type="checkbox" name="optional" value="true" id="optionalCheckbox" />
+                        I agree to volunteer and help organize the event.
+                    </label>
+                </div>
                 {{/if}}
-                <button type="submit" id="submitBtn">Submit</button>
+
+                <div class="mandatory-error" id="mandatoryError">
+                    You must agree to participate in the event to proceed!
+                </div>
+
+                <button type="submit" id="submitBtn" class="register-now-btn">Register Now</button>
             </form>
         </div>
     </div>
-{{/if}}
+    {{/if}}
+</main>

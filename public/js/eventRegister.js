@@ -1,19 +1,32 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const mandatoryCheckbox = document.getElementById("mandatoryCheckbox");
-    const eventRegisterForm = document.getElementById("eventRegisterForm");
-    if (mandatoryCheckbox && eventRegisterForm) {
-        eventRegisterForm.addEventListener("submit", (e) => {
-            if (!mandatoryCheckbox.checked) {
-                e.preventDefault();
-                alert("You must agree to participate in the event to proceed!");
-                return;
-            }
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.pathname.includes('eventRegister')) {
+        const mandatoryCheckbox = document.getElementById('mandatoryCheckbox');
+        const eventRegisterForm = document.getElementById('eventRegisterForm');
+        const mandatoryError = document.getElementById('mandatoryError');
+        const closePopup = document.getElementById('closePopup');
 
-            e.preventDefault();
-            alert("Successfully registered!");
-            window.location.href = "/";
+        closePopup.addEventListener('click', function () {
+            window.location.href = '/events';
         });
-    } else {
-        console.error("Mandatory checkbox or form not found in the DOM.");
+
+        if (mandatoryCheckbox && eventRegisterForm && mandatoryError) {
+            eventRegisterForm.addEventListener("submit", (e) => {
+                if (!mandatoryCheckbox.checked) {
+                    e.preventDefault();
+                    mandatoryError.style.display = 'block';
+                    return;
+                }
+
+                window.location.href = "/";
+            });
+
+            mandatoryCheckbox.addEventListener('change', () => {
+                if (mandatoryCheckbox.checked) {
+                    mandatoryError.style.display = 'none';
+                }
+            });
+        } else {
+            console.error('Mandatory checkbox or form not found in the DOM.');
+        }
     }
 });
