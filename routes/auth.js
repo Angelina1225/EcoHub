@@ -2,12 +2,10 @@ import { Router } from 'express';
 import passport from 'passport';
 const router = Router();
 
-router
-    .route('/google')
+router.route('/google')
     .get(passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router
-    .route('/google/callback')
+router.route('/google/callback')
     .get(passport.authenticate('google', { failureRedirect: '/login' }),
         (req, res) => {
             req.session.user = {
@@ -15,16 +13,18 @@ router
                 email: req.user.email, 
                 userName: req.user.userName
             };
-            res.redirect('/');
+
+            return res.redirect('/');
         });
 
-router
-    .route('/logout')
+router.route('/logout')
     .get((req, res, next) => {
         req.logout((err) => {
-            if (err) { return next(err); }
+            if (err) { 
+                return next(err); 
+            }
             // res.redirect('/')
-        })
-    })
+        });
+    });
 
 export default router;
