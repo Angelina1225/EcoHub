@@ -9,23 +9,18 @@
 
 {{#if success}}
     <script>
-        // Trigger an alert with the success message
         alert("You have successfully registered for the event {{event.title}}!");
 
-        // Redirect to events page after the alert
         setTimeout(() => {
-            window.location.href = "/events"; // Redirect to the events page
+            window.location.href = "/events"; 
         }, 0000); 
     </script>
 {{else if error}}
     <script>
-        // Trigger an alert with the success message
         alert("{{error}}");
-
-        // Redirect to events page after the alert
         setTimeout(() => {
-            window.location.href = "/events"; // Redirect to the events page
-        }, 0000); // Wait 3 seconds after the alert
+            window.location.href = "/events"; 
+        }, 0000); 
     </script>
 {{else}}
     <div id="consentPopup" class="popup">
