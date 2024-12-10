@@ -36,3 +36,10 @@ function toggleVolunteerInput() {
         volunteerField.style.display = "none";
     }
 }
+
+if (window.location.pathname.includes('profile/edit')) {
+    function cancelProfileEdit() {
+        document.querySelector('.edit-profile').style.display = 'none';
+        document.querySelector('.profile-info').style.display = 'blocl';
+    }
+}

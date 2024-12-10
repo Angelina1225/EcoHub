@@ -35,30 +35,38 @@ router.route('/')
 
 router.route('/signin')
     .get(async (req, res) => {
-        try {
-            const user = req.session.user;
+        const user = req.session.user;
 
-            if (user) {
-                return res.redirect('/');
-            }
-
-            return res.render('./users/login', {
-                layout: 'login',
-                title: 'Sign In | EcoHub'
-            });
-        } catch (e) {
-            return res.status(500).json({ error: e });
+        if (user) {
+            return res.redirect('/');
         }
+
+        return res.render('./users/login', {
+            layout: 'login',
+            title: 'Sign In | EcoHub'
+        });
     })
     .post(async (req, res) => {
-        const { email, password } = req.body;
-
-        const user = await User.findOne({ email: email.toLowerCase() });
-
         try {
+            const { email, password } = req.body;
+            const user = await User.findOne({ email: email.toLowerCase() });
+
+            if (!user) {
+                return res.render('./users/login', {
+                    layout: 'login',
+                    title: 'Sign In | EcoHub',
+                    hasError: true,
+                    error: "Invalid email or password",
+                    user: {
+                        email,
+                        password
+                    }
+                });
+            }
+
             const passwordMatch = await user.comparePassword(password);
 
-            if (!user || !passwordMatch) {
+            if (!passwordMatch) {
                 return res.render('./users/login', {
                     layout: 'login',
                     title: 'Sign In | EcoHub',
@@ -75,27 +83,22 @@ router.route('/signin')
 
             return res.redirect('/');
         } catch (e) {
-            res.status(500).json({ error: e });
+            return res.status(500).json({ error: e });
         }
     });
 
-router
-    .route('/signup')
+router.route('/signup')
     .get(async (req, res) => {
-        try {
-            const user = req.session.user;
+        const user = req.session.user;
 
-            if (user) {
-                return res.redirect('/');
-            }
-
-            return res.render('./users/signup', {
-                layout: 'login',
-                title: 'Sign Up | EcoHub'
-            });
-        } catch (e) {
-            return res.status(500).json({ error: e });
+        if (user) {
+            return res.redirect('/');
         }
+
+        return res.render('./users/signup', {
+            layout: 'login',
+            title: 'Sign Up | EcoHub'
+        });
     })
     .post(async (req, res) => {
         let { firstName, lastName, userName, email, password, confirmPassword } = req.body;
@@ -179,20 +182,16 @@ router.route('/logout')
 
 router.route('/reset')
     .get(async (req, res) => {
-        try {
-            const user = req.session.user;
+        const user = req.session.user;
 
-            if (user) {
-                return res.redirect('/home');
-            }
-
-            return res.render('./users/reset', {
-                layout: 'login',
-                title: 'Forgot password | EcoHub'
-            });
-        } catch (e) {
-            return res.status(500).json({ error: e });
+        if (user) {
+            return res.redirect('/home');
         }
+
+        return res.render('./users/reset', {
+            layout: 'login',
+            title: 'Forgot password | EcoHub'
+        });
     })
     .post(async (req, res) => {
         const { email } = req.body;
@@ -317,6 +316,14 @@ router.route('/reset-password')
             }
             return res.status(500).json({ error: e.message });
         }
+    });
+
+router.route('/contact-us')
+    .get((req, res) => {
+        return res.render('./users/contact-us', {
+            layout: 'main',
+            title: 'Contact Us | EcoHub'
+        })
     });
 
 export default router;

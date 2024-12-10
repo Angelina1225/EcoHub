@@ -20,7 +20,7 @@ router.route('/')
                 }
             });
         } catch (error) {
-            res.status(500).send('Server Error');
+            return res.status(500).send('Internal Server Error');
         }
     });
 
@@ -53,8 +53,7 @@ router.route('/:title')
                 blog 
             });
         } catch (err) {
-            console.error(err);
-            res.status(500).send("Internal Server Error");
+            return res.status(500).send("Internal Server Error");
         }
     });
 
