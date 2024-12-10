@@ -17,12 +17,12 @@
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 body {
@@ -37,7 +37,7 @@ body {
 
 main {
     flex: 1;
-    margin-top: 80px;
+    margin-top: 75px;
     padding: 40px 50px;
 }
 
@@ -425,6 +425,155 @@ main {
     margin-top: 50px;
 }
 
+/* Profile */
+.profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-info {
+    text-align: center;
+    background: var(--light-green-color);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 40px;
+}
+
+.profile-info h1 {
+    color: var(--light-text-color);
+    margin: 10px 0;
+}
+
+.profile-info h2 {
+    color: var(--light-text-color);
+    margin: 15px 0;
+}
+
+.profile-info img {
+    border-radius: 50%;
+    border: 3px solid var(--border-color);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.profile-info p {
+    margin: 10px 0;
+}
+
+.profile-info .edit-profile-btn,
+.profile-form .update-profile-btn,
+.profile-form .cancel-btn {
+    border: none;
+    cursor: pointer;
+}
+
+.edit-profile {
+    margin-top: 40px;
+}
+
+.edit-profile h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.edit-profile .profile-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.profile-form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.profile-form .form-group label {
+    margin-bottom: 5px;
+}
+
+.profile-form .form-group input {
+    padding: 10px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    transition: border 0.3s ease;
+}
+
+.profile-form .form-group input[type="file"] {
+    padding: 6px;
+    background-color: var(--light-text-color);
+}
+
+.profile-form-btn {
+    display: flex;
+    justify-content: space-between;
+    grid-column: span 2;
+    gap: 20px;
+}
+
+.profile-form-btn button {
+    width: 50%;
+}
+
+/* Contact Us */
+.contact-us {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.contact-container {
+    width: 50%;
+    max-width: 400px;
+    padding: 20px 0 40px;
+}
+
+.contact-card {
+    background-color: var(--light-text-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px 30px;
+    margin-top: 20px;
+}
+
+.contact-container h1 {
+    font-size: 3rem;
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+}
+
+.contact-card .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.contact-card .form-group input,
+.contact-card .form-group textarea {
+    padding: 10px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    transition: border 0.3s ease;
+    margin-top: 5px;
+}
+
+.contact-card .form-group textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.contact-card .contact-us-btn {
+    width: 100%;
+    cursor: pointer;
+    border: none;
+}
+
 @media (max-width: 1024px) {
     .website-heading img {
         width: 100%;
@@ -457,6 +606,10 @@ main {
         max-width: 100%;
         margin: 0;
         margin-top: 50px;
+    }
+
+    .edit-profile .profile-form {
+        grid-template-columns: 1fr;
     }
 }
 
