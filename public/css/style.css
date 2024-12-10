@@ -15,6 +15,16 @@
     --border-color: #7B8C7E;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 body {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
