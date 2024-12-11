@@ -20,17 +20,9 @@
         <div class="all-events">
             {{#each events}}
             <div class="event">
-                <img src="/public/images/default.png" alt="{{this.title}}">
+                <img src="/public/images/volunteer.jpg" alt="{{this.title}}">
                 <h3 class="event-title">{{this.title}}</h3>
                 <a href="/events/eventRegister?title={{encodeURIComponent this.title}}" class="register-btn btn">Register</a>
-                {{!-- <div class="event-date-container">
-                    <p>Date</p>
-                    <p class="event-date">{{this.eventFormattedDate}}</p>
-                </div>
-                <div class="event-time-container">
-                    <p>Time</p>
-                    <p class="event-time">{{this.eventFormattedTime}}</p>
-                </div> --}}
                 <div class="event-timing-container">
                     <p>Timings</p>
                     <p class="event-timing">{{this.eventFormattedDate}}, {{this.eventFormattedTime}}</p>
