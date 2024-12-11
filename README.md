@@ -27,7 +27,6 @@ Create a .env file in the root of the project and configure the necessary enviro
 Before starting the server, populate the database with initial data.
     Run the following command in the terminal:
     ```bash
-    cd task
     node .\tasks\seedBlogs.js
     ```
 
