@@ -1,0 +1,51 @@
+<main class="profile">
+    <div class="profile-info">
+        <h1>{{user.firstName}} {{user.lastName}}'s Profile</h1>
+        <img src="{{user.image}}" alt="Profile Image" width="100">
+        <h2>{{user.firstName}} {{user.lastName}}</h2>
+        <p>Email: {{user.email}}</p>
+        <p>Username: {{user.userName}}</p>
+
+        <form action="/profile/edit" method="GET">
+            <button type="submit" class="edit-profile-btn btn">Edit Profile</button>
+        </form>
+    </div>
+
+    {{#if editMode}}
+    <div class="edit-profile">
+        <h2>Edit Profile</h2>
+        <form action="/profile/update" method="POST" class="profile-form" id="profileForm"
+            enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" name="firstName" id="firstName" value="{{user.firstName}}">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" name="lastName" id="lastName" value="{{user.lastName}}">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" value="{{user.email}}">
+            </div>
+            <div class="form-group">
+                <label for="userName">Username:</label>
+                <input type="text" name="userName" id="userName" value="{{user.userName}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <div class="form-group">
+                <label for="image">Profile Image:</label>
+                <input type="file" name="image" id="image">
+            </div>
+
+            <div class="profile-form-btn">
+                <button type="submit" class="update-profile-btn btn">Update Profile</button>
+                <button type="button" class="cancel-btn btn" onclick="cancelProfileEdit()">Cancel</button>
+            </div>
+        </form>
+    </div>
+    {{/if}}
+</main>

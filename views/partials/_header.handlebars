@@ -1,0 +1,39 @@
+{{!-- Navbar --}}
+<div class="navbar">
+    <div class="menu-icon link" id="menu-icon" onclick="toggleMenu()">&#9776;</div>
+
+    <a href="/">
+        <img src="/public/images/website/logo.png" alt="EcoHub Logo" class="navbar-logo">
+    </a>
+    <ul class="navbar-list" id="navbar-list">
+        <li><a href="/" class="link">Home</a></li>
+        <li><a href="/events" class="link">Events</a></li>
+        <li><a href="/donate/donation" class="link">Donate</a></li>
+        <li><a href="/blogs" class="link">Blogs</a></li>
+        {{#if user}}
+        <li><a href="/profile" class="link">Profile</a></li>
+        <li><a href="/logout" class="sign-up link">Log Out</a></li>
+        {{else}}
+        <li><a href="/signup" class="sign-up link">Sign Up</a></li>
+        <li><a href="/signin" class="log-in link">Log In</a></li>
+        {{/if}}
+    </ul>
+</div>
+
+{{!-- Side Menu --}}
+<div class="side-menu" id="side-menu">
+    <span class="close-btn" onclick="toggleMenu()">&times;</span>
+    <ul class="side-menu-list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/donate/donation">Donate</a></li>
+        <li><a href="/blogs">Blogs</a></li>
+        {{#if user}}
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/logout" class="sign-up">Log Out</a></li>
+        {{else}}
+        <li><a href="/signup" class="sign-up">Sign Up</a></li>
+        <li><a href="/signin" class="log-in">Log In</a></li>
+        {{/if}}
+    </ul>
+</div>

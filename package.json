@@ -1,0 +1,35 @@
+{
+    "name": "ecohub",
+    "version": "1.0.0",
+    "description": "EcoHub is an engaging, community-driven platform designed to inspire and involve people in environmental conservation efforts.",
+    "main": "app.js",
+    "type": "module",
+    "scripts": {
+        "start": "node app.js",
+        "dev": "nodemon app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "connect-mongo": "^5.1.0",
+        "crypto": "^1.0.1",
+        "dotenv": "^16.4.5",
+        "express": "^4.21.1",
+        "express-handlebars": "^8.0.1",
+        "express-session": "^1.18.1",
+        "hbs": "^4.2.0",
+        "method-override": "^3.0.0",
+        "moment": "^2.30.1",
+        "mongoose": "^8.7.2",
+        "multer": "^1.4.5-lts.1",
+        "nodemailer": "^6.9.16",
+        "passport": "^0.7.0",
+        "passport-google-oauth20": "^2.0.0",
+        "validator": "^13.12.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.7"
+    }
+}

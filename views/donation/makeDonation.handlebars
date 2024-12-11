@@ -1,0 +1,57 @@
+<main class="make-donation">
+    <h1>Make A Donation</h1>
+    <div class="donation-container">
+
+        <div class="donation-img">
+            <img src="/public/images/website/donation.png" alt="Donation">
+        </div>
+
+        <div class="payment-container">
+            <h3>Payment Information</h3>
+            <form action="/donate/donation" method="POST" class="donation-form">
+                <div class="form-group">
+                    <label for="cardName">Name on Card</label>
+                    <input type="text" name="cardName" id="cardName" placeholder="Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" name="cardNumber" id="cardNumber" placeholder="Card Number" pattern="^\d{16}$"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="cardExpiry">Expires</label>
+                    <div class="expires-group">
+                        <select name="cardExpiryMonth" id="cardExpiryMonth" required>
+                            <option value="" disabled selected>Month</option>
+                            <option value="01">Jan</option>
+                            <option value="02">Feb</option>
+                            <option value="03">Mar</option>
+                            <option value="04">Apr</option>
+                            <option value="05">May</option>
+                            <option value="06">Jun</option>
+                            <option value="07">Jul</option>
+                            <option value="08">Aug</option>
+                            <option value="09">Set</option>
+                            <option value="10">Oct</option>
+                            <option value="11">Nov</option>
+                            <option value="12">Dec</option>
+                        </select>
+                        <input type="text" name="cardExpiryYear" id="cardExpiryYear" placeholder="Year"
+                            pattern="^(20[2-9][5-9]|[2-9][1-9]\d{2})$" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cardCVC">CVC</label>
+                    <input type="number" name="cardCVC" id="cardCVC" placeholder="CVC" pattern="^\d{3}$" min="100"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="donationAmount">Amount</label>
+                    <input type="number" name="donationAmount" id="donationAmount" placeholder="$100" min="1" required>
+                </div>
+
+                <button type="submit" class="payment-btn">Make a Payment</button>
+            </form>
+        </div>
+    </div>
+</main>
