@@ -4,7 +4,7 @@ EcoHub is an engaging, community-driven platform designed to inspire and involve
 
 ## Built By
 
-- [Angelina Mange](https://github.com/Angelina1225)
+- [Angelina Mande](https://github.com/Angelina1225)
 - [Dhanvin Patel](https://github.com/dhanvinpatel)
 
 ## Installation
